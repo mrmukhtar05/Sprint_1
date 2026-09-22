@@ -1,0 +1,11 @@
+/* Admin-only helper classes. Import this once from Admin.jsx if needed. */
+.field {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--black);
+  padding: 0.75rem;
+  outline: none;
+}
+.field:focus {
+  border-color: var(--gold);
+}
