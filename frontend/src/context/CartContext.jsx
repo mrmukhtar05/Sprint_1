@@ -37,6 +37,7 @@ const normalize = (cart) => {
       ...i.product,
       _id: i.product?._id || i.product,
       size: i.size || "One Size",
+      color: i.color || "Default",
       qty: Number(i.qty || 1),
     }));
 };
@@ -52,7 +53,7 @@ export function CartProvider({ children }) {
   // --------------------------------------------------
   const validateLocalCart = async () => {
     try {
-      const response = await api.get("/products?limit=1000");
+      const response = await api.get("/products?limit=100");
 
       const backendProducts =
         response.data?.products || [];
@@ -171,7 +172,8 @@ export function CartProvider({ children }) {
   const addToCart = async (
     product,
     qty = 1,
-    size = product?.size || "One Size"
+    size = product?.size || product?.sizes?.[0] || "One Size",
+    color = product?.color || product?.colors?.[0] || "Default"
   ) => {
     if (!product?._id) {
       return;
@@ -186,14 +188,16 @@ export function CartProvider({ children }) {
           (item) =>
             String(item._id) ===
               String(product._id) &&
-            (item.size || "One Size") === size
+            (item.size || "One Size") === size &&
+            (item.color || "Default") === color
         );
 
         if (found) {
           return prev.map((item) =>
             String(item._id) ===
               String(product._id) &&
-            (item.size || "One Size") === size
+            (item.size || "One Size") === size &&
+            (item.color || "Default") === color
               ? {
                   ...item,
                   qty:
@@ -209,6 +213,7 @@ export function CartProvider({ children }) {
           {
             ...product,
             size,
+            color,
             qty: Number(qty || 1),
           },
         ];
@@ -226,6 +231,7 @@ export function CartProvider({ children }) {
           productId: product._id,
           qty,
           size,
+          color,
         })
       );
     } catch (error) {
@@ -243,7 +249,8 @@ export function CartProvider({ children }) {
   // --------------------------------------------------
   const removeFromCart = async (
     id,
-    size = "One Size"
+    size = "One Size",
+    color = "Default"
   ) => {
     // Guest
     if (!isAuthenticated) {
@@ -252,7 +259,8 @@ export function CartProvider({ children }) {
           (item) =>
             !(
               String(item._id) === String(id) &&
-              (item.size || "One Size") === size
+              (item.size || "One Size") === size &&
+            (item.color || "Default") === color
             )
         )
       );
@@ -263,9 +271,7 @@ export function CartProvider({ children }) {
     // Logged-in
     await sync(() =>
       api.delete(`/cart/${id}`, {
-        data: {
-          size,
-        },
+        data: { size, color },
       })
     );
   };
@@ -276,10 +282,11 @@ export function CartProvider({ children }) {
   const updateQty = async (
     id,
     size = "One Size",
-    qty
+    qty,
+    color = "Default"
   ) => {
     if (qty < 1) {
-      return removeFromCart(id, size);
+      return removeFromCart(id, size, color);
     }
 
     // Guest
@@ -287,7 +294,8 @@ export function CartProvider({ children }) {
       setCart((prev) =>
         prev.map((item) =>
           String(item._id) === String(id) &&
-          (item.size || "One Size") === size
+          (item.size || "One Size") === size &&
+            (item.color || "Default") === color
             ? {
                 ...item,
                 qty: Number(qty),
@@ -301,10 +309,7 @@ export function CartProvider({ children }) {
 
     // Logged-in
     await sync(() =>
-      api.put(`/cart/${id}`, {
-        qty,
-        size,
-      })
+      api.put(`/cart/${id}`, { qty, size, color })
     );
   };
 

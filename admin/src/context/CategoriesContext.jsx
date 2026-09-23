@@ -6,97 +6,53 @@ const CategoriesContext = createContext(null);
 export function CategoriesProvider({ children }) {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // GET categories - public
   const fetchCategories = async () => {
-    setLoading(true);
-
     try {
-      const response = await api.get("/categories");
-      const data = response.data;
-
-      setCategories(data.categories ?? data);
-    } catch (error) {
-      console.error("Failed to fetch categories:", error);
-      throw error;
+      setLoading(true);
+      setError("");
+      const r = await api.get("/categories");
+      const list = r.data?.categories || [];
+      setCategories(list);
+      return list;
+    } catch (e) {
+      const message = e.response?.data?.message || "Failed to load categories.";
+      setError(message);
+      throw new Error(message);
     } finally {
       setLoading(false);
     }
   };
 
-  // ADD category - admin
-  const addCategory = async (categoryData) => {
-    try {
-      const response = await api.post(
-        "/admin/categories",
-        categoryData
-      );
-
-      const newCategory =
-        response.data.category ?? response.data;
-
-      setCategories((prev) => [newCategory, ...prev]);
-
-      return newCategory;
-    } catch (error) {
-      console.error("Failed to add category:", error);
-      throw error;
-    }
+  const addCategory = async (data) => {
+    const response = await api.post("/admin/categories", data);
+    const category = response.data.category;
+    setCategories((prev) => [category, ...prev]);
+    return category;
   };
 
-  // UPDATE category - admin
-  const updateCategory = async (id, categoryData) => {
-    try {
-      const response = await api.put(
-        `/admin/categories/${id}`,
-        categoryData
-      );
-
-      const updatedCategory =
-        response.data.category ?? response.data;
-
-      setCategories((prev) =>
-        prev.map((category) =>
-          category._id === id ? updatedCategory : category
-        )
-      );
-
-      return updatedCategory;
-    } catch (error) {
-      console.error("Failed to update category:", error);
-      throw error;
-    }
+  const updateCategory = async (id, data) => {
+    const response = await api.put(`/admin/categories/${id}`, data);
+    const category = response.data.category;
+    setCategories((prev) =>
+      prev.map((item) => String(item._id) === String(id) ? category : item)
+    );
+    return category;
   };
 
-  // DELETE category - admin
   const deleteCategory = async (id) => {
-    try {
-      await api.delete(`/admin/categories/${id}`);
-
-      setCategories((prev) =>
-        prev.filter((category) => category._id !== id)
-      );
-    } catch (error) {
-      console.error("Failed to delete category:", error);
-      throw error;
-    }
+    await api.delete(`/admin/categories/${id}`);
+    setCategories((prev) => prev.filter((item) => String(item._id) !== String(id)));
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategories().catch(() => {});
   }, []);
 
   return (
     <CategoriesContext.Provider
-      value={{
-        categories,
-        setCategories,
-        loading,
-        fetchCategories,
-        addCategory,
-        updateCategory,
-        deleteCategory,
-      }}
+      value={{ categories, loading, error, fetchCategories, addCategory, updateCategory, deleteCategory }}
     >
       {children}
     </CategoriesContext.Provider>
@@ -104,13 +60,7 @@ export function CategoriesProvider({ children }) {
 }
 
 export function useCategories() {
-  const context = useContext(CategoriesContext);
-
-  if (!context) {
-    throw new Error(
-      "useCategories must be used inside CategoriesProvider"
-    );
-  }
-
-  return context;
+  const ctx = useContext(CategoriesContext);
+  if (!ctx) throw new Error("useCategories must be used inside CategoriesProvider");
+  return ctx;
 }

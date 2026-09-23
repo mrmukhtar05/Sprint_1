@@ -9,14 +9,16 @@ export default function Shop() {
   const { products, loading, error, fetchProducts } = useProducts();
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
+  const categoryParam = searchParams.get("category") || "";
 
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState(categoryParam || "All");
+  const [gender, setGender] = useState(searchParams.get("gender") || "");
   const [categories, setCategories] = useState([]);
   const [categoryLoading, setCategoryLoading] = useState(true);
 
   useEffect(() => {
-    fetchProducts(keyword ? { keyword } : {});
-  }, [keyword]);
+    fetchProducts({ ...(keyword ? { keyword } : {}), ...(categoryParam ? { category: categoryParam } : {}), ...(gender ? { gender } : {}) });
+  }, [keyword, categoryParam, gender]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -38,13 +40,7 @@ export default function Shop() {
     fetchCategories();
   }, []);
 
-  const filtered =
-    category === "All"
-      ? products
-      : products.filter(
-          (product) =>
-            product.category?._id === category
-        );
+  const filtered = products;
 
   return (
     <>
@@ -55,10 +51,17 @@ export default function Shop() {
 
       <main className="mx-auto w-full px-5 py-10">
 
+        {/* Gender */}
+        <div className="mb-4 flex flex-wrap gap-2">
+          {[['','ALL'],['men','MEN'],['women','WOMEN'],['unisex','UNISEX']].map(([value,label]) => (
+            <button key={label} onClick={() => { setGender(value); setCategory("All"); }} className={`px-4 py-2 text-xs font-black ${gender === value ? "bg-[var(--gold)] text-black" : "border border-[var(--border)]"}`}>{label}</button>
+          ))}
+        </div>
+
         {/* Categories */}
         <div className="mb-8 flex flex-wrap gap-2">
           <button
-            onClick={() => setCategory("All")}
+            onClick={() => { setCategory("All"); fetchProducts({ ...(keyword ? { keyword } : {}), ...(gender ? { gender } : {}) }); }}
             className={`px-4 py-2 text-xs font-black ${
               category === "All"
                 ? "bg-[var(--gold)] text-black"
@@ -72,7 +75,7 @@ export default function Shop() {
             categories.map((item) => (
               <button
                 key={item._id}
-                onClick={() => setCategory(item._id)}
+                onClick={() => { setCategory(item._id); fetchProducts({ category:item._id, ...(keyword ? { keyword } : {}), ...(gender ? { gender } : {}) }); }}
                 className={`px-4 py-2 text-xs font-black ${
                   category === item._id
                     ? "bg-[var(--gold)] text-black"

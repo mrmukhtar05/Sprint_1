@@ -1,22 +1,9 @@
 # Vintage Vault Admin
 
-React + Vite admin panel using Tailwind CSS v4 and the shared Express/MongoDB backend.
+Run `npm install` then `npm run dev`.
 
-## Run
+Admin uses the backend API at `VITE_API_URL` (default `http://localhost:5000/api`).
 
-1. Copy `.env.example` to `.env`.
-2. Install dependencies: `npm install`.
-3. Start: `npm run dev`.
+Product/category images are uploaded through the backend to Cloudinary. The browser never receives or stores the Cloudinary API secret.
 
-Admin runs on `http://localhost:5174` by default.
-
-## API connection
-
-`VITE_API_URL=http://localhost:5000/api`
-
-The Axios client automatically sends the JWT from `localStorage` as a Bearer token. Backend `/api/admin/*` routes verify the token and require the admin role.
-
-## Admin login
-
-Email: `admin@vintagevault.com`
-Password: `admin123`
+Product fields: gender, category, sizes, colors, price, discount, stock and Cloudinary images. The old condition/era fields are removed.

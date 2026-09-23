@@ -178,154 +178,30 @@ export default function Home() {
 
             {/* Moving Track */}
             <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
-
-              {/* =================================================
-                  FIRST SET
-              ================================================= */}
-              <div className="flex shrink-0 gap-5 px-2 sm:px-3">
-
-                {categories.map((category, index) => (
-
-                  <Link
-                    to={`/shop?category=${category.slug}`}
-                    key={`first-${category._id}-${index}`}
-                    className="
-                      group
-                      relative
-                      h-[clamp(170px,13vw,210px)]
-                      w-[clamp(200px,16vw,260px)]
-                      shrink-0
-                      overflow-hidden
-                      border-2
-                      border-[var(--gold)]
-                      bg-[#173b50]
-                      transition-all
-                      duration-500
-                      hover:-translate-y-3
-                      hover:shadow-[8px_8px_0_#000]
-                    "
-                  >
-
-                    {/* Category Image */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-
-                      <img
-                        src={category.image || logo}
-                        alt={category.name}
-                        className="
-                          h-full
-                          w-full
-                          object-cover
-                          transition-all
-                          duration-700
-                          group-hover:scale-110
-                        "
-                      />
-
-                    </div>
-
-
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-black/40 transition-all duration-500 group-hover:bg-black/20" />
-
-
-                    {/* Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-
-                      <p className="text-[10px] font-bold tracking-[0.3em] text-white/70">
-                        VINTAGE VAULT
-                      </p>
-
-                      <h3 className="mt-1 text-2xl font-black italic tracking-tight text-white transition-transform duration-500 group-hover:translate-x-3 sm:text-3xl">
+              {[0, 1].map((copy) => (
+                <div key={copy} className="flex shrink-0 gap-5 px-2 sm:px-3">
+                  {categories.map((category, index) => (
+                    <Link
+                      to={`/shop?category=${category._id}`}
+                      key={`${copy}-${category._id}-${index}`}
+                      className="group w-[clamp(200px,16vw,260px)] shrink-0 text-center transition-all duration-500 hover:-translate-y-3"
+                    >
+                      <div className="relative aspect-square overflow-hidden rounded-sm border-2 border-[var(--gold)] bg-[var(--surface)] shadow-[0_14px_28px_rgba(0,0,0,.35)] transition-all duration-500 group-hover:shadow-[0_24px_42px_rgba(0,0,0,.55)]">
+                        <img
+                          src={category.image || logo}
+                          alt={category.name}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <h3 className="mt-4 text-xl font-black uppercase text-white transition-colors duration-300 group-hover:text-[var(--gold)]">
                         {category.name}
                       </h3>
-
-                      <span className="mt-2 inline-block text-xs font-black text-[var(--gold)] opacity-0 transition-all duration-500 group-hover:translate-x-3 group-hover:opacity-100">
-                        SHOP NOW →
-                      </span>
-
-                    </div>
-
-                  </Link>
-
-                ))}
-
-              </div>
-
-
-              {/* =================================================
-                  SECOND SET
-              ================================================= */}
-              <div className="flex shrink-0 gap-5 px-2 sm:px-3">
-
-                {categories.map((category, index) => (
-
-                  <Link
-                    to={`/shop?category=${category.slug}`}
-                    key={`second-${category._id}-${index}`}
-                    className="
-                      group
-                      relative
-                      h-[clamp(170px,13vw,210px)]
-                      w-[clamp(200px,16vw,260px)]
-                      shrink-0
-                      overflow-hidden
-                      border-2
-                      border-[var(--gold)]
-                      bg-[#173b50]
-                      transition-all
-                      duration-500
-                      hover:-translate-y-3
-                      hover:shadow-[8px_8px_0_#000]
-                    "
-                  >
-
-                    {/* Category Image */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-
-                      <img
-                        src={category.image || logo}
-                        alt={category.name}
-                        className="
-                          h-full
-                          w-full
-                          object-cover
-                          transition-all
-                          duration-700
-                          group-hover:scale-110
-                        "
-                      />
-
-                    </div>
-
-
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-black/40 transition-all duration-500 group-hover:bg-black/20" />
-
-
-                    {/* Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-
-                      <p className="text-[10px] font-bold tracking-[0.3em] text-white/70">
-                        VINTAGE VAULT
-                      </p>
-
-                      <h3 className="mt-1 text-2xl font-black italic tracking-tight text-white transition-transform duration-500 group-hover:translate-x-3 sm:text-3xl">
-                        {category.name}
-                      </h3>
-
-                      <span className="mt-2 inline-block text-xs font-black text-[var(--gold)] opacity-0 transition-all duration-500 group-hover:translate-x-3 group-hover:opacity-100">
-                        SHOP NOW →
-                      </span>
-
-                    </div>
-
-                  </Link>
-
-                ))}
-
-              </div>
-
+                      <span className="mt-1 inline-block text-[10px] font-black tracking-[0.2em] text-[var(--gold)]">SHOP NOW →</span>
+                    </Link>
+                  ))}
+                </div>
+              ))}
             </div>
 
           </div>

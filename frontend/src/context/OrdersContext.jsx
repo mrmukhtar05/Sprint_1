@@ -4,7 +4,7 @@ const OrdersContext = createContext(null);
 export function OrdersProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const placeOrder = async ({ items, shippingAddress, paymentMethod = "COD" }) => {
-    const orderItems = items.map(i => ({ product: i._id, quantity: Number(i.qty || 1) }));
+    const orderItems = items.map(i => ({ product: i._id, quantity: Number(i.qty || 1), size: i.size || "One Size", color: i.color || "Default" }));
     const r = await api.post("/orders", { orderItems, shippingAddress, paymentMethod });
     const order = r.data.order;
     setOrders(p => [order, ...p]);

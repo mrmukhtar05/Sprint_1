@@ -47,7 +47,7 @@ export default function Cart() {
         <div className="grid gap-4 lg:col-span-2">
           {cart.map((item) => (
             <div
-              key={`${item._id}-${item.size || "default"}`}
+              key={`${item._id}-${item.size || "default"}-${item.color || "default"}`}
               className="flex items-center gap-4 border border-[var(--border)] bg-[var(--surface)] p-4"
             >
               <Link
@@ -74,9 +74,7 @@ export default function Cart() {
                   {item.name}
                 </Link>
 
-                <p className="text-sm text-[var(--muted)]">
-                  Size: {item.size || "One Size"}
-                </p>
+                <p className="text-sm text-[var(--muted)]">Size: {item.size || "One Size"} · Color: {item.color || "Default"}</p>
 
                 <p className="mt-1 font-black text-[var(--gold)]">
                   ₹
@@ -93,7 +91,8 @@ export default function Cart() {
                     updateQty(
                       item._id,
                       item.size,
-                      item.qty - 1
+                      item.qty - 1,
+                      item.color
                     )
                   }
                   className="h-9 w-9 font-black hover:bg-black/20"
@@ -111,7 +110,8 @@ export default function Cart() {
                     updateQty(
                       item._id,
                       item.size,
-                      item.qty + 1
+                      item.qty + 1,
+                      item.color
                     )
                   }
                   className="h-9 w-9 font-black hover:bg-black/20"
@@ -124,7 +124,7 @@ export default function Cart() {
               {/* Remove */}
               <button
                 onClick={() =>
-                  removeFromCart(item._id, item.size)
+                  removeFromCart(item._id, item.size, item.color)
                 }
                 className="ml-2 text-xl text-[var(--muted)] hover:text-[var(--red)]"
                 aria-label={`Remove ${item.name}`}

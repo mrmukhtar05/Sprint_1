@@ -16,6 +16,8 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
 
   // Fetch product from backend
   useEffect(() => {
@@ -28,6 +30,8 @@ export default function ProductDetails() {
 
       if (mounted) {
         setProduct(data);
+        setSelectedSize(data?.sizes?.[0] || "One Size");
+        setSelectedColor(data?.colors?.[0] || "Default");
         setLoading(false);
       }
     };
@@ -75,7 +79,7 @@ export default function ProductDetails() {
   const wishlisted = isWishlisted(productId);
 
   const handleAddToCart = () => {
-    addToCart(product, qty);
+    addToCart(product, qty, selectedSize || product.sizes?.[0] || "One Size", selectedColor || product.colors?.[0] || "Default");
     setAdded(true);
 
     setTimeout(() => {
@@ -114,12 +118,12 @@ export default function ProductDetails() {
           {/* Price */}
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <p className="text-3xl font-black text-[var(--gold)] sm:text-4xl">
-              ₹{product.price}
+              ₹{product.discountPrice > 0 ? product.discountPrice : product.price}
             </p>
 
-            {product.oldPrice && (
+            {product.discountPrice > 0 && (
               <p className="text-lg text-[var(--muted)] line-through">
-                ₹{product.oldPrice}
+                ₹{product.price}
               </p>
             )}
           </div>
@@ -130,29 +134,28 @@ export default function ProductDetails() {
               "A curated vintage piece carefully selected for Vintage Vault."}
           </p>
 
-          {/* Product Meta */}
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:max-w-[500px]">
-
-            <div className="border border-[var(--border)] p-4">
-              <p className="text-[10px] font-bold tracking-widest text-[var(--muted)]">
-                CONDITION
-              </p>
-
-              <p className="mt-1 font-black">
-                {product.condition || "Vintage"}
-              </p>
+          {/* Clothing options */}
+          <div className="mt-7 grid gap-5 sm:max-w-[620px]">
+            <div>
+              <p className="mb-3 text-xs font-black uppercase tracking-widest text-[var(--muted)]">SIZE</p>
+              <div className="flex flex-wrap gap-2">
+                {(product.sizes?.length ? product.sizes : ["One Size"]).map((size) => (
+                  <button type="button" key={size} onClick={() => setSelectedSize(size)} className={`border px-4 py-2 text-xs font-black ${selectedSize === size ? "border-[var(--gold)] bg-[var(--gold)] text-black" : "border-[var(--border)]"}`}>{size}</button>
+                ))}
+              </div>
             </div>
-
-            <div className="border border-[var(--border)] p-4">
-              <p className="text-[10px] font-bold tracking-widest text-[var(--muted)]">
-                SIZE
-              </p>
-
-              <p className="mt-1 font-black">
-                {product.size || "One Size"}
-              </p>
+            <div>
+              <p className="mb-3 text-xs font-black uppercase tracking-widest text-[var(--muted)]">COLOR</p>
+              <div className="flex flex-wrap gap-2">
+                {(product.colors?.length ? product.colors : ["Default"]).map((color) => (
+                  <button type="button" key={color} onClick={() => setSelectedColor(color)} className={`border px-4 py-2 text-xs font-black ${selectedColor === color ? "border-[var(--gold)] bg-[var(--gold)] text-black" : "border-[var(--border)]"}`}>{color}</button>
+                ))}
+              </div>
             </div>
-
+            <div className="grid grid-cols-2 gap-3">
+              <div className="border border-[var(--border)] p-4"><p className="text-[10px] font-bold tracking-widest text-[var(--muted)]">GENDER</p><p className="mt-1 font-black uppercase">{product.gender || "Unisex"}</p></div>
+              <div className="border border-[var(--border)] p-4"><p className="text-[10px] font-bold tracking-widest text-[var(--muted)]">STOCK</p><p className="mt-1 font-black">{product.stock} available</p></div>
+            </div>
           </div>
 
           {/* Quantity */}

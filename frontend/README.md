@@ -1,18 +1,7 @@
-# Vintage Vault Frontend
+# Vintage Vault Storefront
 
-React + Vite storefront using Tailwind CSS v4 and the shared Express/MongoDB backend.
+Run `npm install` then `npm run dev`.
 
-## Run
+Frontend uses `VITE_API_URL` (default `http://localhost:5000/api`).
 
-1. Copy `.env.example` to `.env`.
-2. Install dependencies: `npm install`.
-3. Start: `npm run dev`.
-
-Frontend runs on `http://localhost:5173` by default.
-
-## Connections
-
-- API: `VITE_API_URL=http://localhost:5000/api`
-- Admin panel: `VITE_ADMIN_URL=http://localhost:5174/admin`
-
-The admin dashboard link opens the separate admin app instead of incorrectly routing to the storefront app.
+The storefront is clothing-first: Men/Women/Unisex filters, clothing sizes and colors, Cloudinary product/category images, lazy image loading, cached category/product data and paginated product API responses.

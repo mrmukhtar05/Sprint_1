@@ -226,3 +226,4 @@ textarea.admin-input { resize:vertical; font-family:inherit; }
   .admin-product-row > .gold { grid-column:2; }
   .admin-row-actions { grid-column:2; }
 }
+.admin-category-upload{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.admin-category-upload>img{width:120px;height:120px;object-fit:cover;border:1px solid var(--admin-border);box-shadow:0 10px 25px rgba(0,0,0,.35)}
