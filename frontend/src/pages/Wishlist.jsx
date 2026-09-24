@@ -17,6 +17,11 @@ export default function Wishlist() {
       return;
     }
 
+    // Do not allow out-of-stock products
+    if (Number(product.stock) <= 0) {
+      return;
+    }
+
     // Add product to cart
     addToCart(
       product,
@@ -100,32 +105,43 @@ export default function Wishlist() {
                 ₹{product.price}
               </p>
 
-              {/* BUTTONS */}
-              <div className="mt-3 flex gap-3">
-                {/* ADD TO CART */}
-                <button
-                  type="button"
-                  onClick={() =>
-                    handleAddToCart(product)
-                  }
-                  className="bg-[var(--gold)] px-4 py-2 text-xs font-black text-black transition hover:opacity-90"
-                >
-                  {String(addedId) === String(product._id)
-                    ? "ADDED ✓"
-                    : "ADD TO CART"}
-                </button>
+              {/* STOCK */}
+              <p className="mt-1 text-xs font-bold text-[var(--muted)]">
+                Stock: {Number(product.stock) || 0}
+              </p>
 
-                {/* REMOVE */}
-                <button
-                  type="button"
-                  onClick={() =>
-                    removeFromWishlist(product._id)
-                  }
-                  className="border border-[var(--border)] px-4 py-2 text-xs font-black transition hover:border-[var(--red)] hover:text-[var(--red)]"
-                >
-                  REMOVE
-                </button>
-              </div>
+              {/* BUTTONS */}
+              {/* BUTTONS */}
+<div className="mt-3 flex gap-3">
+
+  {/* OUT OF STOCK */}
+  {Number(product.stock) <= 0 ? (
+    <span className="border border-[var(--red)] px-4 py-2 text-xs font-black text-[var(--red)]">
+      OUT OF STOCK
+    </span>
+  ) : (
+    /* ADD TO CART */
+    <button
+      type="button"
+      onClick={() => handleAddToCart(product)}
+      className="bg-[var(--gold)] px-4 py-2 text-xs font-black text-black transition hover:opacity-90"
+    >
+      {String(addedId) === String(product._id)
+        ? "ADDED ✓"
+        : "ADD TO CART"}
+    </button>
+  )}
+
+  {/* REMOVE - ALWAYS VISIBLE */}
+  <button
+    type="button"
+    onClick={() => removeFromWishlist(product._id)}
+    className="border border-[var(--border)] px-4 py-2 text-xs font-black transition hover:border-[var(--red)] hover:text-[var(--red)]"
+  >
+    REMOVE
+  </button>
+
+</div>
             </div>
           </div>
         ))}

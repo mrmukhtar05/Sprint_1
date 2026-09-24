@@ -79,6 +79,7 @@ export default function ProductDetails() {
   const wishlisted = isWishlisted(productId);
 
   const handleAddToCart = () => {
+    if (Number(product.stock) <= 0 || qty > Number(product.stock)) return;
     addToCart(product, qty, selectedSize || product.sizes?.[0] || "One Size", selectedColor || product.colors?.[0] || "Default");
     setAdded(true);
 
@@ -181,7 +182,7 @@ export default function ProductDetails() {
               </span>
 
               <button
-                onClick={() => setQty((q) => q + 1)}
+                onClick={() => setQty((q) => Math.min(Number(product.stock || 1), q + 1))}
                 className="flex h-11 w-11 items-center justify-center text-xl font-black transition hover:bg-[var(--surface)]"
                 aria-label="Increase quantity"
               >
@@ -192,14 +193,15 @@ export default function ProductDetails() {
           </div>
 
           {/* Add To Cart */}
-          <button
+          {Number(product.stock) > 0 ? <button
             onClick={handleAddToCart}
+            disabled={qty > Number(product.stock)}
             className="mt-8 w-full bg-[var(--gold)] px-6 py-4 font-black text-black transition-all duration-300 hover:opacity-90 hover:shadow-[5px_5px_0_#000]"
           >
             {added
               ? "ADDED TO CART ✓"
               : "ADD TO CART"}
-          </button>
+          </button> : <div className="mt-8 w-full border border-[var(--red)] px-6 py-4 text-center font-black text-[var(--red)]">OUT OF STOCK</div>}
 
           {/* Wishlist */}
           <button

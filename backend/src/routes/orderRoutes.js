@@ -4,6 +4,7 @@ const {
   getMyOrders,
   getOrderById,
   cancelOrder,
+  verifyRazorpayPayment,
 } = require("../controllers/orderController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -15,5 +16,6 @@ router.post("/", createOrder);
 router.get("/my", getMyOrders);
 router.get("/:id", getOrderById);
 router.put("/:id/cancel", cancelOrder);
+router.post("/razorpay/verify", verifyRazorpayPayment);
 
 module.exports = router;

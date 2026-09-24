@@ -73,16 +73,16 @@ export default function Home() {
             HERO
         ===================================================== */}
 
-        <section className="relative overflow-hidden border-b-2 border-[var(--gold)] bg-[#080a0b]">
+        <section className="relative overflow-hidden border-b-2 border-[var(--gold)] bg-[var(--black)] text-[var(--hero-text)]">
 
           {/* Background */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,#063c5c_0%,#080a0b_50%,#080a0b_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,var(--blue-light)_0%,var(--black)_50%,var(--black)_100%)] opacity-100" />
 
           {/* Blue Border */}
-          <div className="absolute right-[-50px] top-[80px] z-10 hidden h-[420px] w-[760px] rotate-[-12deg] items-center justify-center rounded-[50%] border-[14px] border-[#0b4265] lg:flex" />
+          <div className="absolute right-[-50px] top-[80px] z-10 hidden h-[420px] w-[760px] rotate-[-12deg] items-center justify-center rounded-[50%] border-[14px] border-[var(--blue-light)] lg:flex" />
 
           {/* Gold Border */}
-          <div className="absolute right-[-50px] top-[72px] z-10 hidden h-[430px] w-[770px] rotate-[-12deg] rounded-[50%] border-2 border-[#e9a91a] lg:block" />
+          <div className="absolute right-[-50px] top-[72px] z-10 hidden h-[430px] w-[770px] rotate-[-12deg] rounded-[50%] border-2 border-[var(--gold)] lg:block" />
 
           {/* Hero Image */}
           <div className="absolute right-[-70px] top-[55px] z-20 hidden h-[500px] w-[850px] rotate-[-12deg] items-center justify-center lg:flex">
@@ -103,9 +103,9 @@ export default function Home() {
 
               {/* Small Heading */}
               <div className="mb-6 flex items-center gap-3">
-                <span className="h-[2px] w-10 bg-[#e9a91a]" />
+                <span className="h-[2px] w-10 bg-[var(--gold)]" />
 
-                <p className="text-xs font-black tracking-[0.3em] text-[#e9a91a]">
+                <p className="text-xs font-black tracking-[0.3em] text-[var(--gold)]">
                   {home.eyebrow || "VINTAGE • STREETWEAR • GRAILS"}
                 </p>
               </div>
@@ -116,13 +116,13 @@ export default function Home() {
 
                 <br />
 
-                <span className="text-[#e9a91a]">
+                <span className="text-[var(--gold)]">
                   {home.titleLine2 || "PAST."}
                 </span>
               </h1>
 
               {/* Description */}
-              <p className="mt-8 max-w-[450px] text-sm leading-7 text-[#d5cbb9] sm:text-base">
+              <p className="mt-8 max-w-[450px] text-sm leading-7 text-[var(--hero-description)] sm:text-base">
                 {home.description ||
                   "Curated vintage pieces, rare streetwear and timeless grails for people who wear their own story."}
               </p>
@@ -132,14 +132,14 @@ export default function Home() {
 
                 <Link
                   to={home.primaryButtonLink || "/shop"}
-                  className="border-2 border-black bg-[#d83b32] px-7 py-4 font-black text-black shadow-[5px_5px_0_#e9a91a] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
+                  className="border-2 border-black bg-[var(--red)] px-7 py-4 font-black text-black shadow-[5px_5px_0_var(--gold)] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
                 >
                   {home.primaryButtonText || "SHOP NOW →"}
                 </Link>
 
                 <Link
                   to={home.secondaryButtonLink || "/categories"}
-                  className="border-2 border-[#e9a91a] px-7 py-4 font-black text-[#e9a91a] transition-all duration-200 hover:bg-[#e9a91a] hover:text-black"
+                  className="border-2 border-[var(--gold)] px-7 py-4 font-black text-[var(--gold)] transition-all duration-200 hover:bg-[var(--gold)] hover:text-black"
                 >
                   {home.secondaryButtonText || "EXPLORE"}
                 </Link>
@@ -147,15 +147,15 @@ export default function Home() {
               </div>
 
               {/* Stats */}
-              <div className="mt-10 flex gap-7 border-t border-white/10 pt-6">
+              <div className="mt-10 flex gap-7 border-t border-[var(--border)]/40 pt-6">
 
                 {stats.slice(0, 3).map((stat) => (
                   <div key={`${stat.value}-${stat.label}`}>
-                    <b className="text-xl text-[#e9a91a]">
+                    <b className="text-xl text-[var(--gold)]">
                       {stat.value}
                     </b>
 
-                    <p className="text-[10px] text-[#aaa69b]">
+                    <p className="text-[10px] text-[var(--muted)]">
                       {stat.label}
                     </p>
                   </div>
@@ -181,7 +181,7 @@ export default function Home() {
               EXPLORE COLLECTIONS
             </p>
 
-            <h2 className="mt-2 text-4xl font-black uppercase sm:text-5xl">
+            <h2 className="mt-2 text-4xl font-black uppercase text-[var(--text)] sm:text-5xl">
               SHOP BY CATEGORY
             </h2>
 
@@ -198,7 +198,7 @@ export default function Home() {
           ) : !categories?.length ? (
 
             <div className="mt-10 py-16 text-center">
-              <p className="font-black text-white/60">
+              <p className="font-black text-[var(--category-muted)]">
                 NO CATEGORIES FOUND
               </p>
             </div>
@@ -215,7 +215,8 @@ export default function Home() {
 
 
               {/* Marquee */}
-              <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+              <div className="flex w-max animate-marquee hover:[animation-play-state:paused]"  style={{ animationDuration: "25s" }}>
+
 
                 {[0, 1].map((copy) => (
 
@@ -293,7 +294,7 @@ export default function Home() {
                               text-xl
                               font-black
                               uppercase
-                              text-white
+                              text-[var(--category-text)]
                               transition-colors
                               duration-300
                               group-hover:text-[var(--gold)]
@@ -337,7 +338,7 @@ export default function Home() {
             PRODUCTS
         ===================================================== */}
 
-        <section className="bg-[var(--black)] px-5 py-16 sm:px-8 lg:px-12">
+        <section className="bg-[var(--black)] px-5 py-16 text-[var(--text)] sm:px-8 lg:px-12">
 
           <div className="mx-auto w-full">
 
@@ -346,7 +347,7 @@ export default function Home() {
               CURATED FOR YOU
             </p>
 
-            <h2 className="mt-2 text-4xl font-black uppercase sm:text-5xl">
+            <h2 className="mt-2 text-4xl font-black uppercase text-[var(--text)] sm:text-5xl">
               TRENDING GRAILS
             </h2>
 

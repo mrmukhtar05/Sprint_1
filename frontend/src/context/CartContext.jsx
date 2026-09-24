@@ -175,9 +175,11 @@ export function CartProvider({ children }) {
     size = product?.size || product?.sizes?.[0] || "One Size",
     color = product?.color || product?.colors?.[0] || "Default"
   ) => {
-    if (!product?._id) {
+    if (!product?._id || Number(product.stock) <= 0) {
       return;
     }
+    qty = Math.min(Number(qty || 1), Number(product.stock));
+    if (qty < 1) return;
 
     // ----------------------------------------------
     // Guest
@@ -298,7 +300,7 @@ export function CartProvider({ children }) {
             (item.color || "Default") === color
             ? {
                 ...item,
-                qty: Number(qty),
+                qty: Math.min(Number(qty), Number(item.stock ?? qty)),
               }
             : item
         )

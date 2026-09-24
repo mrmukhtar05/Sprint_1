@@ -1,4 +1,5 @@
 const Cart = require("../models/Cart");
+const Product = require("../models/Product");
 
 // GET CART
 const getCart = async (req, res) => {
@@ -42,6 +43,12 @@ const addToCart = async (req, res) => {
       });
     }
 
+    const product = await Product.findById(productId);
+    const requestedQty = Number(qty);
+    if (!product || !product.isActive) return res.status(404).json({ success: false, message: "Product not found" });
+    if (!Number.isInteger(requestedQty) || requestedQty < 1) return res.status(400).json({ success: false, message: "Quantity must be at least 1" });
+    if (product.stock <= 0 || requestedQty > product.stock) return res.status(400).json({ success: false, message: "Product is out of stock or quantity exceeds available stock" });
+
     let cart = await Cart.findOne({
       user: req.user._id,
     });
@@ -52,7 +59,7 @@ const addToCart = async (req, res) => {
         items: [
           {
             product: productId,
-            qty,
+            qty: requestedQty,
             size,
             color,
           },
@@ -67,11 +74,12 @@ const addToCart = async (req, res) => {
       );
 
       if (existingItem) {
-        existingItem.qty += Number(qty);
+        if (existingItem.qty + requestedQty > product.stock) return res.status(400).json({ success: false, message: "Quantity exceeds available stock" });
+        existingItem.qty += requestedQty;
       } else {
         cart.items.push({
           product: productId,
-          qty,
+          qty: requestedQty,
           size,
           color,
         });
@@ -114,6 +122,10 @@ const updateCartItem = async (req, res) => {
       });
     }
 
+    const product = await Product.findById(productId);
+    if (!product || !product.isActive) return res.status(404).json({ success: false, message: "Product not found" });
+
+
     const item = cart.items.find(
       (item) =>
         item.product.toString() === productId &&
@@ -138,6 +150,7 @@ const updateCartItem = async (req, res) => {
           )
       );
     } else {
+      if (!Number.isInteger(Number(qty)) || Number(qty) > product.stock) return res.status(400).json({ success: false, message: "Quantity exceeds available stock" });
       item.qty = Number(qty);
     }
 

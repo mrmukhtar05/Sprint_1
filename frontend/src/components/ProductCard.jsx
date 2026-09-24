@@ -26,6 +26,7 @@ export default function ProductCard({ product, onWishlist }) {
     e.preventDefault();
     e.stopPropagation();
 
+    if (Number(product.stock) <= 0) return;
     addToCart(product, 1, product.size);
 
     setAdded(true);
@@ -196,7 +197,7 @@ export default function ProductCard({ product, onWishlist }) {
           </div>
 
           {/* ADD TO CART */}
-          <button
+          {Number(product.stock) > 0 ? <button
             type="button"
             onClick={handleAddToCart}
             className="
@@ -213,7 +214,7 @@ export default function ProductCard({ product, onWishlist }) {
             "
           >
             {added ? "ADDED TO CART ✓" : "ADD TO CART"}
-          </button>
+          </button> : <div className="mt-4 w-full border border-[var(--red)] px-4 py-3 text-center text-xs font-black text-[var(--red)]">OUT OF STOCK</div>}
         </div>
       </Link>
     </div>

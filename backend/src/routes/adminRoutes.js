@@ -19,6 +19,7 @@ const {
 const {
   getAllOrders,
   updateOrderStatus,
+  getPayments,
 } = require("../controllers/orderController");
 
 const {
@@ -84,6 +85,7 @@ router.delete("/categories/:id", deleteCategory);
 
 router.get("/orders", getAllOrders);
 router.put("/orders/:id/status", updateOrderStatus);
+router.get("/payments", getPayments);
 
 router.get("/customers", getCustomers);
 router.get("/customers/:id", getCustomerById);

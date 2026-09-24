@@ -9,6 +9,7 @@ import Customers from "./pages/Customers";
 import Settings from "./pages/Settings";
 import Messages from "./pages/Messages";
 import HomeSettings from "./pages/HomeSettings";
+import Payments from "./pages/Payments";
 
 export default function Admin() {
   return (
@@ -19,6 +20,7 @@ export default function Admin() {
           <Route path="products" element={<Products />} />
           <Route path="categories" element={<Categories />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="payments" element={<Payments />} />
           <Route path="customers" element={<Customers />} />
           <Route path="messages" element={<Messages />} />
           <Route path="home" element={<HomeSettings />} />

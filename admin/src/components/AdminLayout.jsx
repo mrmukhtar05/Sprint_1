@@ -8,6 +8,7 @@ const navItems = [
   { to: "/admin/products", label: "Products", icon: "□" },
   { to: "/admin/categories", label: "Categories", icon: "▤" },
   { to: "/admin/orders", label: "Orders", icon: "⌑" },
+  { to: "/admin/payments", label: "Payments", icon: "₹" },
   { to: "/admin/customers", label: "Customers", icon: "♙" },
   { to: "/admin/messages", label: "Messages", icon: "✉" },
   { to: "/admin/home", label: "Home Page", icon: "⌂" },
@@ -29,7 +30,9 @@ export default function AdminLayout({ children }) {
           ? "Products"
           : location.pathname.includes("/orders")
             ? "Orders"
-            : location.pathname.includes("/customers")
+            : location.pathname.includes("/payments")
+              ? "Payments"
+              : location.pathname.includes("/customers")
               ? "Customers"
               : location.pathname.includes("/messages")
                 ? "Messages"

@@ -4,6 +4,7 @@ import logo from "../assets/logo.png";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function Navbar() {
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const { mode, toggleTheme } = useTheme();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,36 +49,39 @@ export default function Navbar() {
   return (
     <>
 
-      <div className="marquee-wrap hidden overflow-hidden border-b border-[var(--border)] bg-black px-6 py-2 text-xs md:block">
-        <style>{` 
-    @keyframes marquee-move { 
-      from { 
-        transform: translateX(0); 
-      } 
-      to { 
-        transform: translateX(-50%); 
-      } 
-    } 
- 
-    .animate-marquee { 
-      animation: marquee-move 10s linear infinite; 
-    } 
- 
-    .marquee-wrap:hover .animate-marquee { 
-      animation-play-state: paused; 
-    } 
- 
-    @media (prefers-reduced-motion: reduce) { 
-      .animate-marquee { 
-        animation: none; 
-      } 
-    } 
+
+
+      <div className="marquee-wrap hidden overflow-hidden border-b border-[var(--border)] bg-[var(--bg)] px-6 py-2 text-xs md:block">
+        <style>{`
+    @keyframes marquee-move {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .animate-marquee {
+      animation: marquee-move 10s linear infinite;
+    }
+
+    .marquee-wrap:hover .animate-marquee {
+      animation-play-state: paused;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-marquee {
+        animation: none;
+      }
+    }
   `}</style>
 
-        <div className="animate-marquee flex items-center justify-between ">
+        <div className="animate-marquee flex items-center justify-between text-[var(--text)]">
+
           {/* First content */}
           <div className="flex shrink-0 items-center gap-6 pr-20">
-            <span className="font-black whitespace-nowrap">
+            <span className="whitespace-nowrap font-black text-[var(--text)]">
               🚚 FREE SHIPPING ABOVE ₹1999
             </span>
 
@@ -89,7 +94,7 @@ export default function Navbar() {
 
           {/* Exact duplicate */}
           <div className="flex shrink-0 items-center gap-6 pr-20">
-            <span className="font-black whitespace-nowrap">
+            <span className="whitespace-nowrap font-black text-[var(--text)]">
               🚚 FREE SHIPPING ABOVE ₹1999
             </span>
 
@@ -99,6 +104,7 @@ export default function Navbar() {
               <span>Wishlist</span>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -143,12 +149,13 @@ export default function Navbar() {
 
           {/* ================= DESKTOP ACTIONS ================= */}
           <div className="hidden items-center gap-5  lg:flex">
+            <button type="button" onClick={toggleTheme} aria-label="Toggle day and night mode" className="border border-[var(--gold)] px-3 py-2 text-sm font-black text-[var(--cream)] hover:bg-[var(--gold)] hover:text-black">{mode === "dark" ? "☀ DAY" : "☾ NIGHT"}</button>
             {/* Search */}
             <button
               onClick={() => setSearchOpen((v) => !v)}
               className={`flex   items-center justify-center !p-0 !font-normal text-6xl leading-none transition-colors ${searchOpen
-                  ? "text-[var(--gold)]"
-                  : "text-[var(--cream)] hover:text-[var(--gold)]"
+                ? "text-[var(--gold)]"
+                : "text-[var(--cream)] hover:text-[var(--gold)]"
                 }`}
               aria-label="Search"
               aria-expanded={searchOpen}
@@ -251,7 +258,7 @@ export default function Navbar() {
                   className="bg-[var(--gold)] px-5 font-black text-black transition hover:opacity-90"
                 >
                   SEARCH
-                </button>              
+                </button>
               </form>
             </div>
           )}
@@ -288,6 +295,7 @@ export default function Navbar() {
 
             {/* Mobile Actions */}
             <div className="flex flex-wrap items-center gap-6 pt-5">
+              <button type="button" onClick={toggleTheme} className="border border-[var(--gold)] px-3 py-2 text-xs font-black text-[var(--cream)]">{mode === "dark" ? "☀ DAY" : "☾ NIGHT"}</button>
               {/* Search */}
               <button
                 onClick={() => setSearchOpen((v) => !v)}
