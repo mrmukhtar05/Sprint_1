@@ -38,7 +38,24 @@ export default function Home() {
       ];
 
   return (
-    <main className="overflow-hidden">
+    <>
+      <style>{`
+        @keyframes heroFloat {
+          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+          50% { transform: translate3d(0, -12px, 0) rotate(1deg) scale(1.025); }
+        }
+
+        @keyframes categoryFloat {
+          0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+          50% { transform: translate3d(0, -7px, 0) scale(1.035); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          * { animation: none !important; }
+        }
+      `}</style>
+
+      <main className="overflow-hidden">
 
       {/* =====================================================
           HERO
@@ -55,11 +72,12 @@ export default function Home() {
         <div className="absolute right-[-50px] top-[72px] z-10 hidden h-[430px] w-[770px] rotate-[-12deg] rounded-[50%] border-2 border-[#e9a91a] lg:block" />
 
         {/* Hero Image */}
-        <div className="absolute right-[-50px] top-[80px] z-20 hidden h-[420px] w-[760px] rotate-[-12deg] items-center justify-center lg:flex">
+        <div className="absolute right-[-70px] top-[55px] z-20 hidden h-[500px] w-[850px] rotate-[-12deg] items-center justify-center lg:flex">
           <img
             src={home.heroImage || logo}
             alt="Vintage Vault"
-            className="mr-25 max-h-full w-full object-contain"
+            className="mr-10 max-h-[115%] w-[115%] object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,.45)]"
+            style={{ animation: "heroFloat 5s ease-in-out infinite" }}
           />
         </div>
 
@@ -137,78 +155,174 @@ export default function Home() {
       {/* =====================================================
           CATEGORIES
       ===================================================== */}
-      <section className="overflow-hidden bg-[var(--blue)] py-16">
+     {/* =====================================================
+    CATEGORIES
+===================================================== */}
+<section className="overflow-hidden bg-[var(--blue)] py-16">
 
-        {/* Heading */}
-        <div className="mx-auto px-5 sm:px-8 lg:px-12">
+  {/* Heading */}
+  <div className="mx-auto px-5 sm:px-8 lg:px-12">
+    <p className="text-xs font-black tracking-[0.3em] text-[var(--gold)]">
+      EXPLORE COLLECTIONS
+    </p>
 
-          <p className="text-xs font-black tracking-[0.3em] text-[var(--gold)]">
-            EXPLORE COLLECTIONS
-          </p>
+    <h2 className="mt-2 text-4xl font-black uppercase sm:text-5xl">
+      SHOP BY CATEGORY
+    </h2>
+  </div>
 
-          <h2 className="mt-2 text-4xl font-black uppercase sm:text-5xl">
-            SHOP BY CATEGORY
-          </h2>
+  {/* Loading */}
+  {categoriesLoading ? (
+    <div className="mt-10 py-16 text-center font-black text-[var(--gold)]">
+      LOADING CATEGORIES...
+    </div>
+  ) : !categories?.length ? (
+    <div className="mt-10 py-16 text-center">
+      <p className="font-black text-white/60">
+        NO CATEGORIES FOUND
+      </p>
+    </div>
+  ) : (
 
-        </div>
+    <div className="relative mt-10 w-full overflow-hidden">
 
+      {/* Left Fade */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-[var(--blue)] to-transparent sm:w-28" />
 
-        {/* Loading Categories */}
-        {categoriesLoading ? (
-          <div className="mt-10 py-16 text-center font-black text-[var(--gold)]">
-            LOADING CATEGORIES...
+      {/* Right Fade */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-[var(--blue)] to-transparent sm:w-28" />
+
+      {/* Marquee */}
+      <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+
+        {[0, 1].map((copy) => (
+          <div
+            key={copy}
+            className="flex shrink-0 gap-6 px-3"
+          >
+
+            {categories.map((category, index) => {
+
+              const imageUrl =
+                typeof category?.image === "string" &&
+                category.image.trim()
+                  ? category.image.trim()
+                  : logo;
+
+              return (
+                <Link
+                  to={`/shop?category=${category._id}`}
+                  key={`${copy}-${category._id}-${index}`}
+                  className="
+                    group
+                    w-[clamp(230px,19vw,320px)]
+                    shrink-0
+                    text-center
+                    transition-all
+                    duration-500
+                    hover:-translate-y-4
+                  "
+                >
+
+                  {/* Image Card */}
+                  <div
+                    className="
+                      relative
+                      aspect-square
+                      overflow-hidden
+                      rounded-sm
+                      border-2
+                      border-[var(--gold)]
+                      bg-[var(--surface)]
+                      shadow-[0_14px_28px_rgba(0,0,0,.35)]
+                      transition-all
+                      duration-500
+                      group-hover:shadow-[0_26px_50px_rgba(0,0,0,.6)]
+                    "
+                  >
+
+                    {/* Image */}
+                    <img
+                      src={imageUrl}
+                      alt={category?.name || "Category"}
+                      loading="lazy"
+                      decoding="async"
+                      draggable="false"
+                      className="
+                        absolute
+                        inset-0
+                        h-full
+                        w-full
+                        object-contain
+                        p-4
+                        transition-transform
+                        duration-700
+                        ease-out
+                        group-hover:scale-110
+                      "
+                      style={{
+                        animation: `categoryFloat ${
+                          3.5 + (index % 3) * 0.5
+                        }s ease-in-out infinite`,
+                      }}
+                      onLoad={(e) => {
+                        e.currentTarget.style.opacity = "1";
+                      }}
+                      onError={(e) => {
+                        console.error(
+                          "Category image failed:",
+                          category?.name,
+                          category?.image
+                        );
+
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = logo;
+                      }}
+                    />
+
+                  </div>
+
+                  {/* Category Name */}
+                  <h3
+                    className="
+                      mt-4
+                      text-xl
+                      font-black
+                      uppercase
+                      text-white
+                      transition-colors
+                      duration-300
+                      group-hover:text-[var(--gold)]
+                    "
+                  >
+                    {category?.name}
+                  </h3>
+
+                  <span
+                    className="
+                      mt-1
+                      inline-block
+                      text-[10px]
+                      font-black
+                      tracking-[0.2em]
+                      text-[var(--gold)]
+                    "
+                  >
+                    SHOP NOW →
+                  </span>
+
+                </Link>
+              );
+            })}
+
           </div>
-        ) : categories?.length === 0 ? (
-          <div className="mt-10 py-16 text-center">
-            <p className="font-black text-white/60">
-              NO CATEGORIES FOUND
-            </p>
-          </div>
-        ) : (
+        ))}
 
-          /* Marquee */
-          <div className="relative mt-10 w-full overflow-hidden">
+      </div>
+    </div>
+  )}
 
-            {/* Left Fade */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-12 bg-gradient-to-r from-[var(--blue)] to-transparent sm:w-24" />
-
-            {/* Right Fade */}
-            <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-12 bg-gradient-to-l from-[var(--blue)] to-transparent sm:w-24" />
-
-
-            {/* Moving Track */}
-            <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
-              {[0, 1].map((copy) => (
-                <div key={copy} className="flex shrink-0 gap-5 px-2 sm:px-3">
-                  {categories.map((category, index) => (
-                    <Link
-                      to={`/shop?category=${category._id}`}
-                      key={`${copy}-${category._id}-${index}`}
-                      className="group w-[clamp(200px,16vw,260px)] shrink-0 text-center transition-all duration-500 hover:-translate-y-3"
-                    >
-                      <div className="relative aspect-square overflow-hidden rounded-sm border-2 border-[var(--gold)] bg-[var(--surface)] shadow-[0_14px_28px_rgba(0,0,0,.35)] transition-all duration-500 group-hover:shadow-[0_24px_42px_rgba(0,0,0,.55)]">
-                        <img
-                          src={category.image || logo}
-                          alt={category.name}
-                          loading="lazy"
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                      </div>
-                      <h3 className="mt-4 text-xl font-black uppercase text-white transition-colors duration-300 group-hover:text-[var(--gold)]">
-                        {category.name}
-                      </h3>
-                      <span className="mt-1 inline-block text-[10px] font-black tracking-[0.2em] text-[var(--gold)]">SHOP NOW →</span>
-                    </Link>
-                  ))}
-                </div>
-              ))}
-            </div>
-
-          </div>
-
-        )}
-
-      </section>
+</section>
 
 
       {/* =====================================================
@@ -262,7 +376,7 @@ export default function Home() {
             products.length > 0 && (
               <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-                {products.slice(0, 8).map((product, index) => (
+                {products.slice(0, 15).map((product, index) => (
 
                   <div
                     key={product._id}
@@ -284,5 +398,6 @@ export default function Home() {
       </section>
 
     </main>
+    </>
   );
 }
