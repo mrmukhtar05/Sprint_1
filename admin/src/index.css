@@ -54,3 +54,176 @@ html[data-admin-theme="light"] .bg-black\/20 { background: var(--admin-overlay) 
 html[data-admin-theme="light"] .bg-\[\#080a0d\],
 html[data-admin-theme="light"] .bg-\[\#101419\] { background: var(--admin-bg) !important; }
 html[data-admin-theme="light"] .shadow-black\/40 { --tw-shadow-color: rgba(15,23,42,.10) !important; }
+
+/* Light mode form controls: typed text should stay black for readability. */
+html[data-admin-theme="light"] input,
+html[data-admin-theme="light"] textarea,
+html[data-admin-theme="light"] select,
+html[data-admin-theme="light"] option {
+  color: #000 !important;
+}
+
+html[data-admin-theme="light"] input::placeholder,
+html[data-admin-theme="light"] textarea::placeholder {
+  color: #6b7280 !important;
+  opacity: 1;
+}
+
+
+/* =========================================================
+   ADMIN DAY MODE — CONSISTENT CONTRAST + CONTROLS
+   ========================================================= */
+html[data-admin-theme="light"] .admin-app,
+html[data-admin-theme="light"] .admin-main,
+html[data-admin-theme="light"] .admin-sidebar,
+html[data-admin-theme="light"] .admin-topbar,
+html[data-admin-theme="light"] .admin-content {
+  color: var(--admin-text) !important;
+}
+
+html[data-admin-theme="light"] .admin-sidebar,
+html[data-admin-theme="light"] .admin-panel,
+html[data-admin-theme="light"] .admin-stat-card,
+html[data-admin-theme="light"] .admin-message,
+html[data-admin-theme="light"] .admin-store-card,
+html[data-admin-theme="light"] .admin-setting-card {
+  background: var(--admin-surface) !important;
+  color: var(--admin-text) !important;
+}
+
+html[data-admin-theme="light"] .admin-topbar {
+  background: rgba(245,245,242,.94) !important;
+}
+
+html[data-admin-theme="light"] .admin-nav-link:hover,
+html[data-admin-theme="light"] .admin-action:hover {
+  color: var(--admin-text) !important;
+  background: rgba(15,23,42,.045) !important;
+}
+
+html[data-admin-theme="light"] .admin-nav-link.active {
+  color: #000 !important;
+}
+
+html[data-admin-theme="light"] .admin-secondary-btn,
+html[data-admin-theme="light"] .admin-danger-btn,
+html[data-admin-theme="light"] .admin-filter-chip,
+html[data-admin-theme="light"] .admin-close-text,
+html[data-admin-theme="light"] .admin-menu-button,
+html[data-admin-theme="light"] .admin-top-logout,
+html[data-admin-theme="light"] .admin-store-link,
+html[data-admin-theme="light"] .admin-logout,
+html[data-admin-theme="light"] .admin-text-link {
+  color: var(--admin-text) !important;
+}
+
+html[data-admin-theme="light"] .admin-secondary-btn:hover,
+html[data-admin-theme="light"] .admin-filter-chip:hover,
+html[data-admin-theme="light"] .admin-text-link:hover {
+  color: var(--admin-gold) !important;
+}
+
+html[data-admin-theme="light"] .admin-danger-btn {
+  color: var(--admin-red) !important;
+}
+
+html[data-admin-theme="light"] .admin-danger-btn:hover {
+  color: #fff !important;
+}
+
+html[data-admin-theme="light"] .admin-input,
+html[data-admin-theme="light"] .admin-search,
+html[data-admin-theme="light"] .admin-status-select,
+html[data-admin-theme="light"] .admin-photo-add {
+  background: #fff !important;
+  color: #111 !important;
+  border-color: var(--admin-border) !important;
+}
+
+html[data-admin-theme="light"] .admin-input::placeholder,
+html[data-admin-theme="light"] .admin-search::placeholder {
+  color: #6b7280 !important;
+  opacity: 1 !important;
+}
+
+html[data-admin-theme="light"] .admin-input:focus,
+html[data-admin-theme="light"] .admin-search:focus,
+html[data-admin-theme="light"] .admin-status-select:focus {
+  border-color: var(--admin-gold) !important;
+  box-shadow: 0 0 0 2px rgba(183,121,0,.10);
+}
+
+html[data-admin-theme="light"] .admin-input option,
+html[data-admin-theme="light"] .admin-status-select option {
+  color: #111 !important;
+  background: #fff !important;
+}
+
+html[data-admin-theme="light"] .admin-table td,
+html[data-admin-theme="light"] .admin-product-row {
+  border-bottom-color: rgba(15,23,42,.08) !important;
+}
+
+html[data-admin-theme="light"] .admin-photo button {
+  background: rgba(15,23,42,.82) !important;
+  color: #fff !important;
+}
+
+html[data-admin-theme="light"] .admin-screen {
+  color: var(--admin-text) !important;
+}
+
+/* Prevent admin navigation/actions from overflowing on short or narrow screens. */
+.admin-sidebar {
+  overflow: hidden;
+}
+
+.admin-sidebar nav {
+  scrollbar-width: thin;
+  scrollbar-color: var(--admin-border) transparent;
+}
+
+.admin-sidebar nav::-webkit-scrollbar {
+  width: 5px;
+}
+
+.admin-sidebar nav::-webkit-scrollbar-thumb {
+  background: var(--admin-border);
+  border-radius: 999px;
+}
+
+@media (max-height: 760px) and (min-width: 1024px) {
+  .admin-sidebar .px-6.py-6 {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .admin-sidebar nav {
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
+
+  .admin-sidebar nav a {
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-topbar {
+    gap: 10px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-topbar {
+    min-height: 76px;
+    height: auto !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .admin-topbar > div:last-child {
+    flex-shrink: 0;
+  }
+}

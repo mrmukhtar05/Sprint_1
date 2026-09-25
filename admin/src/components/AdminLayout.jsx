@@ -57,7 +57,7 @@ export default function AdminLayout({ children }) {
       />
 
       <aside
-        className={`admin-sidebar !fixed !left-0 !top-0 !z-50 !h-screen !w-64 !border-r !border-[var(--admin-border)] !bg-[var(--admin-sidebar)] !p-0 transition-transform duration-200 lg:!translate-x-0 ${sidebarOpen ? "!translate-x-0" : "!-translate-x-full"}`}
+        className={`admin-sidebar !fixed !left-0 !top-0 !z-50 !h-screen !w-64 !border-r !border-[var(--admin-border)] !bg-[var(--admin-sidebar)] !p-0 !flex !flex-col !overflow-hidden transition-transform duration-200 lg:!translate-x-0 ${sidebarOpen ? "!translate-x-0" : "!-translate-x-full"}`}
       >
         <div className="flex items-center justify-between border-b border-[var(--admin-border)] px-6 py-6">
           <div>
@@ -77,7 +77,7 @@ export default function AdminLayout({ children }) {
           <p className="mt-1 text-sm font-bold">Store Management</p>
         </div>
 
-        <nav className="px-4 py-6">
+        <nav className="min-h-0 flex-1 overflow-y-auto px-4 py-6">
           <p className="mb-3 px-2 text-[9px] font-black tracking-[3px] text-[var(--admin-muted)]">MAIN MENU</p>
           <div className="space-y-1.5">
             {navItems.map((item) => (
@@ -101,7 +101,7 @@ export default function AdminLayout({ children }) {
           </div>
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 space-y-2 border-t border-[var(--admin-border)] p-4">
+        <div className="mt-auto shrink-0 space-y-2 border-t border-[var(--admin-border)] bg-[var(--admin-sidebar)] p-4">
           <button
             type="button"
             onClick={toggleTheme}
@@ -126,7 +126,7 @@ export default function AdminLayout({ children }) {
 
       <section className="admin-main !ml-0 !min-w-0 !w-full lg:!ml-64 lg:!w-[calc(100%-16rem)]">
         <header className="sticky top-0 z-30 flex h-[76px] items-center justify-between border-b border-[var(--admin-border)] bg-[var(--admin-bg)]/90 px-5 backdrop-blur-xl sm:px-8">
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
             <button
               className="grid h-10 w-10 place-items-center rounded-lg border border-[var(--admin-border)] bg-[var(--admin-overlay)] text-lg lg:hidden"
               onClick={() => setSidebarOpen(true)}
@@ -140,7 +140,7 @@ export default function AdminLayout({ children }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <button
               type="button"
               onClick={toggleTheme}

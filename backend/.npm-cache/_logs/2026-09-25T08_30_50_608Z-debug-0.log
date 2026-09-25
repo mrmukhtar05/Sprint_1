@@ -7,6 +7,6 @@
 6 silly config load:file:C:\Users\Lenovo\AppData\Roaming\npm\etc\npmrc
 7 verbose title npm run dev
 8 verbose argv "run" "dev"
-9 verbose logfile logs-max:10 dir:D:\E-commerce\backend\.npm-cache\_logs\2026-09-25T08_18_11_979Z-
-10 verbose logfile D:\E-commerce\backend\.npm-cache\_logs\2026-09-25T08_18_11_979Z-debug-0.log
+9 verbose logfile logs-max:10 dir:D:\E-commerce\backend\.npm-cache\_logs\2026-09-25T08_30_50_608Z-
+10 verbose logfile D:\E-commerce\backend\.npm-cache\_logs\2026-09-25T08_30_50_608Z-debug-0.log
 11 silly logfile done cleaning log files
