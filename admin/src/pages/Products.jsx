@@ -108,7 +108,6 @@ export default function Products() {
 
     if (!form.name.trim() || !form.price || !form.category || !form.gender)
       return setError("Name, price, gender and category are required.");
-    if (!form.images.length) return setError("Add at least one product image.");
     if (!form.sizes.length) return setError("Select at least one size.");
     if (!form.colors.length) return setError("Select at least one color.");
 

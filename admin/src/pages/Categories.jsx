@@ -58,7 +58,6 @@ export default function Categories() {
     e.preventDefault();
 
     if (!form.name.trim()) return setError("Category name is required.");
-    if (!editingId && !form.image) return setError("Category image is required.");
 
     const data = new FormData();
     data.append("name", form.name.trim());
