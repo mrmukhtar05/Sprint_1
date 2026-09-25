@@ -149,8 +149,16 @@ export default function Navbar() {
 
           {/* ================= DESKTOP ACTIONS ================= */}
           <div className="hidden items-center gap-5  lg:flex">
-            <button type="button" onClick={toggleTheme} aria-label="Toggle day and night mode" className="border border-[var(--gold)] px-3 py-2 text-sm font-black text-[var(--cream)] hover:bg-[var(--gold)] hover:text-black">{mode === "dark" ? "☀ DAY" : "☾ NIGHT"}</button>
-            {/* Search */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label="Toggle day and night mode"
+              className="group px-3 py-2 text-sm font-black text-[var(--cream)] transition-colors duration-300 hover:text-[var(--gold)]"
+            >
+              <span className="inline-block transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-180">
+                {mode === "dark" ? "☀" : "☾"}
+              </span>
+            </button>            {/* Search */}
             <button
               onClick={() => setSearchOpen((v) => !v)}
               className={`flex   items-center justify-center !p-0 !font-normal text-6xl leading-none transition-colors ${searchOpen
