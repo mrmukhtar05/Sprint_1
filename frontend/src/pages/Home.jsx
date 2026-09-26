@@ -16,6 +16,9 @@ export default function Home() {
 
   const [settings, setSettings] = useState(null);
 
+  // RANDOM PRODUCTS
+  const [randomProducts, setRandomProducts] = useState([]);
+
   useEffect(() => {
     api
       .get("/home")
@@ -26,6 +29,29 @@ export default function Home() {
         console.error("Home settings error:", err);
       });
   }, []);
+
+  // RANDOMIZE PRODUCTS WHEN PRODUCTS LOAD
+  useEffect(() => {
+    if (!products?.length) {
+      setRandomProducts([]);
+      return;
+    }
+
+    const shuffledProducts = [...products];
+
+    // Fisher-Yates shuffle
+    for (let i = shuffledProducts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+
+      [shuffledProducts[i], shuffledProducts[j]] = [
+        shuffledProducts[j],
+        shuffledProducts[i],
+      ];
+    }
+
+    // Pick random 15
+    setRandomProducts(shuffledProducts.slice(0, 15));
+  }, [products]);
 
   const home = settings || {};
 
@@ -60,9 +86,34 @@ export default function Home() {
           }
         }
 
+        /* PRODUCT CARD LOAD ANIMATION */
+        @keyframes cardSlideUp {
+          0% {
+            opacity: 0;
+            transform: translate3d(0, 45px, 0);
+          }
+
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+          }
+        }
+
+        .animate-card-in {
+          opacity: 0;
+          animation: cardSlideUp 700ms cubic-bezier(0.22, 1, 0.36, 1)
+            forwards;
+          will-change: transform, opacity;
+        }
+
         @media (prefers-reduced-motion: reduce) {
           * {
             animation: none !important;
+          }
+
+          .animate-card-in {
+            opacity: 1;
+            transform: none;
           }
         }
       `}</style>
@@ -187,7 +238,6 @@ export default function Home() {
 
           </div>
 
-
           {/* Loading */}
           {categoriesLoading ? (
 
@@ -212,7 +262,6 @@ export default function Home() {
 
               {/* Right Fade */}
               <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-[var(--blue)] to-transparent sm:w-28" />
-
 
               {/* Marquee */}
               <div
@@ -288,7 +337,6 @@ export default function Home() {
 
                           </div>
 
-
                           {/* Category Name */}
                           <h3
                             className="
@@ -304,7 +352,6 @@ export default function Home() {
                           >
                             {category?.name}
                           </h3>
-
 
                           {/* Shop Now */}
                           <span
@@ -353,7 +400,6 @@ export default function Home() {
               TRENDING GRAILS
             </h2>
 
-
             {/* Loading */}
             {loading && (
               <div className="py-20 text-center font-black">
@@ -361,14 +407,12 @@ export default function Home() {
               </div>
             )}
 
-
             {/* Error */}
             {!loading && error && (
               <div className="py-20 text-center text-red-500">
                 {error}
               </div>
             )}
-
 
             {/* Empty */}
             {!loading &&
@@ -381,47 +425,26 @@ export default function Home() {
                 </div>
               )}
 
-
             {/* Product Grid */}
             {!loading &&
               !error &&
-              products.length > 0 && (
+              randomProducts.length > 0 && (
 
                 <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-                  {products.slice(0, 15).map((product, index) => {
+                  {randomProducts.map((product, index) => (
 
-                    const isOutOfStock =
-                      Number(product?.stock ?? 0) <= 0;
+                    <div
+                      key={product._id}
+                      className="animate-card-in"
+                      style={{
+                        animationDelay: `${index * 80}ms`,
+                      }}
+                    >
+                      <ProductCard product={product} />
+                    </div>
 
-                    return (
-                      <div
-                        key={product._id}
-                        className="animate-card-in"
-                        style={{
-                          animationDelay: `${index * 80}ms`,
-                        }}
-                      >
-
-                        {/* Product Card Wrapper */}
-                        <div className="relative">
-
-                          <ProductCard product={product} />
-
-                          {/* OUT OF STOCK */}
-                          {isOutOfStock && (
-                            <div className="pointer-events-none absolute left-3 top-3 z-30">
-                              <span className="inline-block border-2 border-red-500 bg-black px-3 py-2 text-xs font-black uppercase tracking-widest text-red-500 shadow-[3px_3px_0_rgba(239,68,68,0.35)]">
-                                OUT OF STOCK
-                              </span>
-                            </div>
-                          )}
-
-                        </div>
-
-                      </div>
-                    );
-                  })}
+                  ))}
 
                 </div>
               )}
