@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import { CategoriesProvider } from "./context/CategoriesContext";
+import Payment from "./pages/Payment";
 
 export default function App() {
   return (
@@ -49,6 +50,7 @@ export default function App() {
                               <Route path="/wishlist" element={<Wishlist />} />
                               <Route path="/checkout" element={<Checkout />} />
                               <Route path="/login" element={<Login />} />
+                              <Route path="/payment" element={<Payment />} />
                               <Route path="/register" element={<Register />} />
                               <Route path="/profile" element={<Profile />} />
                               <Route path="/orders" element={<Orders />} />

@@ -14,6 +14,9 @@ export default function ProductCard({ product, onWishlist }) {
 
   const wishlisted = isWishlisted(productId);
 
+  // STOCK CHECK
+  const isOutOfStock = Number(product?.stock ?? 0) <= 0;
+
   const handleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -26,7 +29,9 @@ export default function ProductCard({ product, onWishlist }) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (Number(product.stock) <= 0) return;
+    // Prevent adding unavailable products
+    if (isOutOfStock) return;
+
     addToCart(product, 1, product.size);
 
     setAdded(true);
@@ -186,7 +191,10 @@ export default function ProductCard({ product, onWishlist }) {
           {/* PRICE */}
           <div className="mt-3 flex items-center gap-3">
             <span className="text-base font-black text-[#d08c0b] sm:text-lg">
-              ₹{product.discountPrice > 0 ? product.discountPrice : product.price}
+              ₹
+              {product.discountPrice > 0
+                ? product.discountPrice
+                : product.price}
             </span>
 
             {product.discountPrice > 0 && (
@@ -196,25 +204,44 @@ export default function ProductCard({ product, onWishlist }) {
             )}
           </div>
 
-          {/* ADD TO CART */}
-          {Number(product.stock) > 0 ? <button
-            type="button"
-            onClick={handleAddToCart}
-            className="
-              mt-4
-              w-full
-              bg-[var(--gold)]
-              px-4
-              py-3
-              text-xs
-              font-black
-              text-black
-              transition
-              hover:opacity-90
-            "
-          >
-            {added ? "ADDED TO CART ✓" : "ADD TO CART"}
-          </button> : <div className="mt-4 w-full border border-[var(--red)] px-4 py-3 text-center text-xs font-black text-[var(--red)]">OUT OF STOCK</div>}
+          {/* ADD TO CART / OUT OF STOCK */}
+          {isOutOfStock ? (
+            <div
+              className="
+                mt-4
+                w-full
+                border
+                border-[var(--red)]
+                px-4
+                py-3
+                text-center
+                text-xs
+                font-black
+                text-[var(--red)]
+              "
+            >
+              OUT OF STOCK
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className="
+                mt-4
+                w-full
+                bg-[var(--gold)]
+                px-4
+                py-3
+                text-xs
+                font-black
+                text-black
+                transition
+                hover:opacity-90
+              "
+            >
+              {added ? "ADDED TO CART ✓" : "ADD TO CART"}
+            </button>
+          )}
         </div>
       </Link>
     </div>

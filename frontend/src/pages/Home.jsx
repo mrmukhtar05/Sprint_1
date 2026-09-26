@@ -215,8 +215,10 @@ export default function Home() {
 
 
               {/* Marquee */}
-              <div className="flex w-max animate-marquee hover:[animation-play-state:paused]"  style={{ animationDuration: "25s" }}>
-
+              <div
+                className="flex w-max animate-marquee hover:[animation-play-state:paused]"
+                style={{ animationDuration: "25s" }}
+              >
 
                 {[0, 1].map((copy) => (
 
@@ -387,19 +389,39 @@ export default function Home() {
 
                 <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-                  {products.slice(0, 15).map((product, index) => (
+                  {products.slice(0, 15).map((product, index) => {
 
-                    <div
-                      key={product._id}
-                      className="animate-card-in"
-                      style={{
-                        animationDelay: `${index * 80}ms`,
-                      }}
-                    >
-                      <ProductCard product={product} />
-                    </div>
+                    const isOutOfStock =
+                      Number(product?.stock ?? 0) <= 0;
 
-                  ))}
+                    return (
+                      <div
+                        key={product._id}
+                        className="animate-card-in"
+                        style={{
+                          animationDelay: `${index * 80}ms`,
+                        }}
+                      >
+
+                        {/* Product Card Wrapper */}
+                        <div className="relative">
+
+                          <ProductCard product={product} />
+
+                          {/* OUT OF STOCK */}
+                          {isOutOfStock && (
+                            <div className="pointer-events-none absolute left-3 top-3 z-30">
+                              <span className="inline-block border-2 border-red-500 bg-black px-3 py-2 text-xs font-black uppercase tracking-widest text-red-500 shadow-[3px_3px_0_rgba(239,68,68,0.35)]">
+                                OUT OF STOCK
+                              </span>
+                            </div>
+                          )}
+
+                        </div>
+
+                      </div>
+                    );
+                  })}
 
                 </div>
               )}
