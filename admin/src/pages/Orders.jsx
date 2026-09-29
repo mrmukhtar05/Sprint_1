@@ -189,15 +189,7 @@ export default function Orders() {
 
                 {/* HOVER SHINE */}
                 <span
-                  className="
-                    pointer-events-none
-                    absolute inset-0
-                    -translate-x-full
-                    skew-x-[-20deg]
-                    bg-white/10
-                    transition-transform duration-700
-                    group-hover:translate-x-[160%]
-                  "
+                  
                 />
 
                 {/* COUNT BADGE
