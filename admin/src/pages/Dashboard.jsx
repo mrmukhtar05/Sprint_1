@@ -92,22 +92,79 @@ export default function Dashboard() {
           <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Store Dashboard</h2>
           <p className="mt-2 text-sm text-slate-500">Live store data from your MongoDB-backed API.</p>
         </div>
+        {/* buttom add to card  */}
         <div className="flex gap-2">
-          <button onClick={loadDashboard} className="rounded-lg border border-white/10 px-4 py-3 text-xs font-bold text-slate-300 hover:border-amber-400/50 hover:text-amber-400">Refresh</button>
-          <Link to="/admin/products?new=1" className="rounded-lg bg-amber-400 px-5 py-3 text-xs font-black text-black hover:bg-amber-300">+ Add Product</Link>
+          <button
+            onClick={loadDashboard}
+            className="group relative overflow-hidden rounded-lg border border-white/10 p-3 text-xs font-bold text-slate-300 transition-all duration-300 hover:-translate-y-1 hover:border-amber-400/50 hover:text-amber-400 hover:shadow-[0_6px_20px_rgba(245,158,11,0.15)] active:translate-y-0"
+          >
+            <span className="relative z-10 flex items-center gap-1.5">
+              <span className="inline-block transition-transform duration-500 group-hover:rotate-180">
+                ↻
+              </span>
+              Refresh
+            </span>
+
+            <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-amber-400/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+          </button>
+
+          <Link
+            to="/admin/products?new=1"
+            className="group relative overflow-hidden rounded-lg bg-amber-400 p-3 text-xs font-black text-black transition-all duration-300 hover:-translate-y-1 hover:bg-amber-300 hover:shadow-[0_8px_25px_rgba(245,158,11,0.25)] active:translate-y-0"
+          >
+            <span className="relative z-10 inline-block transition-transform duration-300 group-hover:scale-105">
+              + Add Product
+            </span>
+
+            <span className="absolute inset-0 -translate-x-full bg-white/30 skew-x-[-20deg] transition-transform duration-700 group-hover:translate-x-[180%]" />
+          </Link>
         </div>
       </section>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {statCards.map(([label, value, note, icon]) => (
-          <article key={label} className="rounded-xl border border-white/10 bg-[#101419] p-5 transition hover:-translate-y-0.5 hover:border-amber-400/40">
-            <div className="flex items-start justify-between">
+          <article
+            key={label}
+            className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#101419] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-amber-400/40 hover:shadow-[0_10px_30px_rgba(245,158,11,0.10)]"
+          >
+            {/* Shine */}
+            <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-amber-400/5 to-transparent skew-x-[-15deg] transition-transform duration-700 group-hover:translate-x-[180%]" />
+
+            <div className="relative z-10 flex items-start justify-between">
               <div>
-                <p className="text-[10px] font-black tracking-[2px] text-slate-500">{label}</p>
-                <p className="mt-3 text-3xl font-black text-amber-400">{value}</p>
-                <p className="mt-1 text-xs text-slate-500">{note}</p>
+                <p className="text-[10px] font-black tracking-[2px] text-slate-500 transition-colors duration-300 group-hover:text-slate-400">
+                  {label}
+                </p>
+
+                <p className="mt-3 text-3xl font-black text-amber-400 transition-all duration-300 group-hover:scale-105 group-hover:text-amber-300">
+                  {value}
+                </p>
+
+                <p className="mt-1 text-xs text-slate-500">
+                  {note}
+                </p>
               </div>
-              <div className="grid h-10 w-10 place-items-center rounded-lg bg-black/30 text-lg text-amber-400">{icon}</div>
+              <div
+                className="
+    relative grid h-11 w-11 place-items-center
+    rounded-full
+    border border-amber-400/30
+    bg-gradient-to-br from-amber-400/20 via-amber-300/10 to-transparent
+    text-lg text-amber-500
+    shadow-[inset_0_0_12px_rgba(245,158,11,0.08)]
+    transition-all duration-500
+    group-hover:scale-110
+    group-hover:rotate-6
+    group-hover:border-amber-400
+    group-hover:bg-amber-400
+    group-hover:text-black
+    group-hover:shadow-[0_0_22px_rgba(245,158,11,0.25)]
+  "
+              >
+                <span className="transition-transform duration-500 group-hover:scale-110">
+                  {icon}
+                </span>
+              </div>
             </div>
           </article>
         ))}
@@ -135,8 +192,24 @@ export default function Dashboard() {
                       <td className="px-5 py-4 font-bold">#{String(order._id).slice(-8).toUpperCase()}</td>
                       <td className="px-5 py-4"><div className="font-semibold">{order.user?.name || "Customer"}</div><div className="mt-1 text-[10px] text-slate-500">{order.user?.email || "—"}</div></td>
                       <td className="px-5 py-4 font-black text-amber-400">{money(order.totalPrice)}</td>
-                      <td className="px-5 py-4"><span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[9px] font-black uppercase text-slate-300">{order.status || "pending"}</span></td>
-                    </tr>
+                      <td className="px-5 py-4">
+                        <span
+                          className={`rounded-full border px-2.5 py-1 text-[9px] font-black uppercase ${order.status === "pending"
+                            ? "border-red-500/30 bg-red-500/15 text-red-400"
+                            : order.status === "processing"
+                              ? "border-yellow-500/30 bg-yellow-500/15 text-yellow-400"
+                              : order.status === "shipped"
+                                ? "border-blue-500/30 bg-blue-500/15 text-blue-400"
+                                : order.status === "delivered"
+                                  ? "border-green-500/30 bg-green-500/15 text-green-400"
+                                  : order.status === "cancelled"
+                                    ? "border-red-700/30 bg-red-700/15 text-red-500"
+                                    : "border-white/10 bg-white/5 text-slate-300"
+                            }`}
+                        >
+                          {order.status || "pending"}
+                        </span>
+                      </td>                    </tr>
                   ))}
                 </tbody>
               </table>
