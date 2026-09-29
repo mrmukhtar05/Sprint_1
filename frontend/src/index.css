@@ -11,6 +11,25 @@
   --muted: #aaa69b;
   --border: #c88b12;
   --surface: #111820;
+
+  /* Derived tokens (were used across the app but never defined).
+     They point at the base palette, so they follow dark/light automatically. */
+  --bg: var(--black);
+  --text: var(--cream);
+  --hero-text: var(--cream);
+  --hero-description: var(--muted);
+  --category-text: var(--cream);
+  --category-muted: var(--muted);
+
+  /* Product card + readable gold on cream */
+  --card: #eee6d5;
+  --card-text: #17130d;
+  --gold-deep: #c88b0b;
+}
+
+:root[data-theme="light"] {
+  --card: #ffffff;
+  --gold-deep: #b86b00;
 }
 
 * { box-sizing: border-box; }

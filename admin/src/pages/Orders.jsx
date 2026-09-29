@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/api";
 import OrderTable from "../components/OrderTable";
 import SectionTitle from "../components/SectionTitle";
+import { STATUS_STYLES, ALL_FILTER_STYLE } from "../utils/orderStatus";
 
 const STATUS_FILTERS = [
   "all",
@@ -11,44 +12,6 @@ const STATUS_FILTERS = [
   "delivered",
   "cancelled",
 ];
-
-const STATUS_STYLES = {
-  all: {
-    icon: "◉",
-    active:
-      "border-amber-400 bg-amber-400 text-black shadow-[0_0_20px_rgba(245,158,11,0.22)]",
-  },
-
-  pending: {
-    icon: "●",
-    active:
-      "border-red-400 bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.25)]",
-  },
-
-  processing: {
-    icon: "◌",
-    active:
-      "border-yellow-400 bg-yellow-400 text-black shadow-[0_0_20px_rgba(250,204,21,0.25)]",
-  },
-
-  shipped: {
-    icon: "➜",
-    active:
-      "border-blue-400 bg-blue-500 text-white shadow-[0_0_20px_rgba(59,130,246,0.25)]",
-  },
-
-  delivered: {
-    icon: "✓",
-    active:
-      "border-green-400 bg-green-500 text-white shadow-[0_0_20px_rgba(34,197,94,0.25)]",
-  },
-
-  cancelled: {
-    icon: "×",
-    active:
-      "border-red-500 bg-red-700 text-white shadow-[0_0_20px_rgba(185,28,28,0.25)]",
-  },
-};
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
@@ -166,7 +129,7 @@ export default function Orders() {
       {/* STATUS FILTERS */}
       <div className="admin-filter-row flex flex-wrap items-center gap-2">
         {STATUS_FILTERS.map((status) => {
-          const style = STATUS_STYLES[status];
+          const style = status === "all" ? ALL_FILTER_STYLE : STATUS_STYLES[status];
           const isActive = statusFilter === status;
 
           // COUNT FROM FULL ORDERS ARRAY
@@ -250,7 +213,7 @@ export default function Orders() {
                       -right-2
                       z-10
                       rounded-full
-                      bg-red-400
+                      bg-[var(--admin-gold)]
                       px-2
                       py-1.5
                       text-center
@@ -258,7 +221,7 @@ export default function Orders() {
                       font-black
                       leading-none
                       text-black
-                      shadow-[0_0_12px_rgba(245,158,11,0.35)]
+                      shadow-[0_0_12px_rgba(227,170,32,0.35)]
                     "
                   >
                     {count}

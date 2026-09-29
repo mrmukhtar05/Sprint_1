@@ -1,3 +1,5 @@
+import { statusBadge } from "../utils/orderStatus";
+
 const STATUS_OPTIONS = ["pending", "processing", "shipped", "delivered", "cancelled"];
 
 export default function OrderTable({ orders = [], onStatusChange }) {
@@ -45,7 +47,7 @@ export default function OrderTable({ orders = [], onStatusChange }) {
                     ))}
                   </select>
                 ) : (
-                  <span className="admin-status">{order.status || "pending"}</span>
+                  <span className={`inline-block rounded-full border px-2.5 py-1 text-[9px] font-black uppercase ${statusBadge(order.status)}`}>{order.status || "pending"}</span>
                 )}
               </td>
             </tr>

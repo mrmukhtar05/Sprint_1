@@ -135,7 +135,8 @@ export default function Payment() {
         },
 
         theme: {
-          color: "#e9a91a",
+          color:
+            getComputedStyle(document.documentElement).getPropertyValue("--gold").trim() || "#e9a91a",
         },
 
         handler: async (response) => {

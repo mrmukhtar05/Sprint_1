@@ -48,13 +48,13 @@ export default function ProductCard({ product, onWishlist }) {
         w-full
         overflow-hidden
         rounded-sm
-        bg-[#eee6d5]
-        text-black
+        bg-[var(--card)]
+        text-[var(--card-text)]
         shadow-lg
         transition-all
         duration-500
         hover:-translate-y-3
-        hover:shadow-[8px_8px_0_#e9a91a]
+        hover:shadow-[8px_8px_0_var(--gold)]
       "
     >
       <Link
@@ -181,7 +181,7 @@ export default function ProductCard({ product, onWishlist }) {
               font-black
               transition-colors
               duration-300
-              group-hover:text-[#c88b0b]
+              group-hover:text-[var(--gold-deep)]
               sm:text-xl
             "
           >
@@ -190,7 +190,7 @@ export default function ProductCard({ product, onWishlist }) {
 
           {/* PRICE */}
           <div className="mt-3 flex items-center gap-3">
-            <span className="text-base font-black text-[#d08c0b] sm:text-lg">
+            <span className="text-base font-black text-[var(--gold-deep)] sm:text-lg">
               ₹
               {product.discountPrice > 0
                 ? product.discountPrice

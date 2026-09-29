@@ -249,7 +249,7 @@ export default function Navbar() {
             <div className="absolute left-0 right-0 top-full z-50 border-t border-[var(--gold)] bg-[var(--blue)] px-4 py-4 shadow-xl lg:px-10">
               <form
                 onSubmit={submitSearch}
-                className="mx-auto flex w-full max-w-6xl overflow-hidden rounded-sm border-2 border-[var(--gold)] bg-black/30"
+                className="mx-auto flex w-full max-w-6xl overflow-hidden rounded-sm border-2 border-[var(--gold)] bg-[var(--surface)]"
               >
                 <input
                   autoFocus
@@ -257,7 +257,7 @@ export default function Navbar() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search vintage grails..."
-                  className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-[var(--cream)] outline-none placeholder:text-white/40"
+                  className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-[var(--cream)] outline-none placeholder:text-[var(--muted)]"
                   aria-label="Search products"
                 />
 

@@ -26,8 +26,8 @@ export default function Login() {
   };
 
   return (
-    <main className="grid min-h-screen place-items-center bg-[#080a0d] px-4 py-10 text-slate-100">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#101419] p-7 shadow-2xl shadow-black/40 sm:p-9">
+    <main className="grid min-h-screen place-items-center bg-[var(--admin-bg)] px-4 py-10 text-slate-100">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[var(--admin-surface)] p-7 shadow-2xl shadow-black/40 sm:p-9">
         <div className="mb-8 text-center">
           <p className="text-[10px] font-black tracking-[5px] text-amber-400">VINTAGE VAULT</p>
           <h1 className="mt-2 text-3xl font-black">ADMIN LOGIN</h1>
@@ -39,12 +39,12 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <label className="block">
             <span className="mb-2 block text-[10px] font-black tracking-[2px] text-slate-400">EMAIL</span>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required autoComplete="username" className="w-full rounded-lg border border-white/10 bg-[#080a0d] px-4 py-3 text-sm outline-none transition placeholder:text-slate-600 focus:border-amber-400" placeholder="admin@example.com" />
+            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required autoComplete="username" className="w-full rounded-lg border border-white/10 bg-[var(--admin-bg)] px-4 py-3 text-sm outline-none transition placeholder:text-slate-600 focus:border-amber-400" placeholder="admin@example.com" />
           </label>
 
           <label className="block">
             <span className="mb-2 block text-[10px] font-black tracking-[2px] text-slate-400">PASSWORD</span>
-            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" required autoComplete="current-password" className="w-full rounded-lg border border-white/10 bg-[#080a0d] px-4 py-3 text-sm outline-none transition placeholder:text-slate-600 focus:border-amber-400" placeholder="••••••••" />
+            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" required autoComplete="current-password" className="w-full rounded-lg border border-white/10 bg-[var(--admin-bg)] px-4 py-3 text-sm outline-none transition placeholder:text-slate-600 focus:border-amber-400" placeholder="••••••••" />
           </label>
 
           <button disabled={loading} type="submit" className="w-full rounded-lg bg-amber-400 px-4 py-3.5 text-sm font-black text-black transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-50">

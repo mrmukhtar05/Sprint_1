@@ -21,7 +21,7 @@ export default function Payments() {
             {["all", "COD", "RAZORPAY"].map((x) => (
                 <button
                     key={x}
-                    className={`admin-filter-chip ${method === x ? "active hover:!text-white" : ""
+                    className={`admin-filter-chip ${method === x ? "active" : ""
                         }`}
                     onClick={() => setMethod(x)}
                 >
@@ -34,7 +34,7 @@ export default function Payments() {
             {["all", "paid", "unpaid"].map((x) => (
                 <button
                     key={x}
-                    className={`admin-filter-chip ${status === x ? "active hover:!text-white" : ""
+                    className={`admin-filter-chip ${status === x ? "active" : ""
                         }`}
                     onClick={() => setStatus(x)}
                 >
@@ -54,6 +54,6 @@ export default function Payments() {
                 <p className="mt-2 text-2xl font-black text-amber-400">{money(totals.paid)}</p>
             </div>
         </div>
-        <section className="admin-panel overflow-x-auto">{error && <div className="admin-error">{error}</div>}{loading ? <div className="admin-empty">Loading payments...</div> : !payments.length ? <div className="admin-empty">No payment records found.</div> : <table className="w-full min-w-[1000px] text-left"><thead><tr className="border-b border-white/10 text-[10px] uppercase tracking-wider text-slate-500"><th className="p-4">Order</th><th className="p-4">Customer</th><th className="p-4">Method</th><th className="p-4">Status</th><th className="p-4">Amount</th><th className="p-4">Razorpay ID</th><th className="p-4">Order Date</th><th className="p-4">Delivery</th></tr></thead><tbody>{payments.map(p => <tr key={p._id} className="border-b border-white/5 align-top"><td className="p-4 font-bold">#{p._id}</td><td className="p-4"><div className="font-bold">{p.user?.name || "—"}</div><div className="text-xs text-slate-500">{p.user?.email || "—"}</div></td><td className="p-4">{p.paymentMethod === "RAZORPAY" ? "Razorpay / Online" : "COD"}</td><td className="p-4"><span className={`rounded px-2 py-1 text-xs font-bold ${p.isPaid ? "bg-emerald-500/10 text-emerald-400" : "bg-amber-500/10 text-amber-400"}`}>{p.isPaid ? "PAID" : "UNPAID"}</span></td><td className="p-4 font-black">{money(p.totalPrice)}</td><td className="p-4 text-xs text-slate-400">{p.razorpayPaymentId || "—"}</td><td className="p-4 text-xs">{new Date(p.createdAt).toLocaleString("en-IN")}</td><td className="p-4 text-xs">{p.status}{p.deliveredAt ? ` · ${new Date(p.deliveredAt).toLocaleDateString("en-IN")}` : ""}</td></tr>)}</tbody></table>}</section>
+        <section className="admin-panel overflow-x-auto">{error && <div className="admin-error">{error}</div>}{loading ? <div className="admin-empty">Loading payments...</div> : !payments.length ? <div className="admin-empty">No payment records found.</div> : <table className="w-full min-w-[1000px] text-left"><thead><tr className="border-b border-white/10 text-[10px] uppercase tracking-wider text-slate-500"><th className="p-4">Order</th><th className="p-4">Customer</th><th className="p-4">Method</th><th className="p-4">Status</th><th className="p-4">Amount</th><th className="p-4">Razorpay ID</th><th className="p-4">Order Date</th><th className="p-4">Delivery</th></tr></thead><tbody>{payments.map(p => <tr key={p._id} className="border-b border-white/5 align-top"><td className="p-4 font-bold">#{p._id}</td><td className="p-4"><div className="font-bold">{p.user?.name || "—"}</div><div className="text-xs text-slate-500">{p.user?.email || "—"}</div></td><td className="p-4">{p.paymentMethod === "RAZORPAY" ? "Razorpay / Online" : "COD"}</td><td className="p-4"><span className={`rounded px-2 py-1 text-xs font-bold ${p.isPaid ? "bg-emerald-500/10 text-emerald-400" : "bg-orange-500/10 text-orange-400"}`}>{p.isPaid ? "PAID" : "UNPAID"}</span></td><td className="p-4 font-black">{money(p.totalPrice)}</td><td className="p-4 text-xs text-slate-400">{p.razorpayPaymentId || "—"}</td><td className="p-4 text-xs">{new Date(p.createdAt).toLocaleString("en-IN")}</td><td className="p-4 text-xs">{p.status}{p.deliveredAt ? ` · ${new Date(p.deliveredAt).toLocaleDateString("en-IN")}` : ""}</td></tr>)}</tbody></table>}</section>
     </div>
 }

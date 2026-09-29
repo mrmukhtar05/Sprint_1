@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* One gold for the whole admin: every amber-* utility follows the theme variable,
+   so dark and day mode stay in sync without touching each class. */
+@theme inline {
+  --color-amber-300: var(--admin-gold-hover);
+  --color-amber-400: var(--admin-gold);
+  --color-amber-500: var(--admin-gold);
+}
+
 :root {
   --admin-bg: #080a0d;
   --admin-sidebar: #0d1014;
@@ -7,6 +15,8 @@
   --admin-overlay: rgba(255,255,255,.03);
   --admin-border: rgba(255,255,255,.10);
   --admin-gold: #e3aa20;
+  --admin-gold-hover: #f0bd45;
+  --admin-divider: rgba(255,255,255,.045);
   --admin-muted: #858b93;
   --admin-text: #f8fafc;
   --admin-red: #ef4444;
@@ -25,6 +35,8 @@ html[data-admin-theme="light"] {
   --admin-overlay: rgba(15,23,42,.045);
   --admin-border: rgba(15,23,42,.12);
   --admin-gold: #b77900;
+  --admin-gold-hover: #9a6400;
+  --admin-divider: rgba(15,23,42,.08);
   --admin-muted: #68707a;
   --admin-text: #15181c;
   --admin-red: #dc2626;
@@ -51,8 +63,6 @@ html[data-admin-theme="light"] .bg-white\/\[\.02\],
 html[data-admin-theme="light"] .bg-white\/\[\.03\],
 html[data-admin-theme="light"] .bg-white\/5,
 html[data-admin-theme="light"] .bg-black\/20 { background: var(--admin-overlay) !important; }
-html[data-admin-theme="light"] .bg-\[\#080a0d\],
-html[data-admin-theme="light"] .bg-\[\#101419\] { background: var(--admin-bg) !important; }
 html[data-admin-theme="light"] .shadow-black\/40 { --tw-shadow-color: rgba(15,23,42,.10) !important; }
 
 /* Light mode form controls: typed text should stay black for readability. */
@@ -227,3 +237,18 @@ html[data-admin-theme="light"] .admin-screen {
     flex-shrink: 0;
   }
 }
+
+
+/* Order status colours: readable on white in day mode (dark mode keeps the -400 shades). */
+html[data-admin-theme="light"] .text-orange-400 { color: #c2410c !important; }
+html[data-admin-theme="light"] .text-sky-400 { color: #0369a1 !important; }
+html[data-admin-theme="light"] .text-violet-400 { color: #6d28d9 !important; }
+html[data-admin-theme="light"] .text-emerald-400 { color: #047857 !important; }
+html[data-admin-theme="light"] .text-red-400,
+html[data-admin-theme="light"] .text-red-300 { color: #b91c1c !important; }
+
+/* Active filter chip: dark text on gold in both themes, also while hovered. */
+.admin-filter-chip.active,
+.admin-filter-chip.active:hover,
+html[data-admin-theme="light"] .admin-filter-chip.active,
+html[data-admin-theme="light"] .admin-filter-chip.active:hover { color: #000 !important; }

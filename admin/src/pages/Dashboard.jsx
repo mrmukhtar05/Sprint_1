@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/api";
+import { STATUS_KEYS, STATUS_STYLES, statusBadge } from "../utils/orderStatus";
 
 const money = (value) => `₹${Number(value || 0).toLocaleString("en-IN")}`;
 
@@ -44,7 +45,7 @@ export default function Dashboard() {
         <div className="h-6 w-28 rounded bg-white/10" />
         <div className="mt-3 h-10 w-72 rounded bg-white/10" />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {[1, 2, 3, 4].map((item) => <div key={item} className="h-36 rounded-xl border border-white/10 bg-[#101419]" />)}
+          {[1, 2, 3, 4].map((item) => <div key={item} className="h-36 rounded-xl border border-white/10 bg-[var(--admin-surface)]" />)}
         </div>
       </div>
     );
@@ -75,14 +76,6 @@ export default function Dashboard() {
     ["REVENUE", money(totalRevenue), "Gross sales", "₹"],
     ["CUSTOMERS", totalCustomers, "Registered users", "♙"],
   ];
-
-  const statusColors = {
-    pending: "bg-amber-400",
-    processing: "bg-sky-400",
-    shipped: "bg-violet-400",
-    delivered: "bg-emerald-400",
-    cancelled: "bg-red-400",
-  };
 
   return (
     <div className="mx-auto max-w-[1500px]">
@@ -125,7 +118,7 @@ export default function Dashboard() {
         {statCards.map(([label, value, note, icon]) => (
           <article
             key={label}
-            className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#101419] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-amber-400/40 hover:shadow-[0_10px_30px_rgba(245,158,11,0.10)]"
+            className="group relative overflow-hidden rounded-xl border border-white/10 bg-[var(--admin-surface)] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-amber-400/40 hover:shadow-[0_10px_30px_rgba(245,158,11,0.10)]"
           >
             {/* Shine */}
             <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-amber-400/5 to-transparent skew-x-[-15deg] transition-transform duration-700 group-hover:translate-x-[180%]" />
@@ -171,7 +164,7 @@ export default function Dashboard() {
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-[1.6fr_1fr]">
-        <article className="overflow-hidden rounded-xl border border-white/10 bg-[#101419]">
+        <article className="overflow-hidden rounded-xl border border-white/10 bg-[var(--admin-surface)]">
           <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
             <div>
               <p className="text-[10px] font-black tracking-[3px] text-amber-400">ORDERS</p>
@@ -194,18 +187,7 @@ export default function Dashboard() {
                       <td className="px-5 py-4 font-black text-amber-400">{money(order.totalPrice)}</td>
                       <td className="px-5 py-4">
                         <span
-                          className={`rounded-full border px-2.5 py-1 text-[9px] font-black uppercase ${order.status === "pending"
-                            ? "border-red-500/30 bg-red-500/15 text-red-400"
-                            : order.status === "processing"
-                              ? "border-yellow-500/30 bg-yellow-500/15 text-yellow-400"
-                              : order.status === "shipped"
-                                ? "border-blue-500/30 bg-blue-500/15 text-blue-400"
-                                : order.status === "delivered"
-                                  ? "border-green-500/30 bg-green-500/15 text-green-400"
-                                  : order.status === "cancelled"
-                                    ? "border-red-700/30 bg-red-700/15 text-red-500"
-                                    : "border-white/10 bg-white/5 text-slate-300"
-                            }`}
+                          className={`rounded-full border px-2.5 py-1 text-[9px] font-black uppercase ${statusBadge(order.status)}`}
                         >
                           {order.status || "pending"}
                         </span>
@@ -219,17 +201,17 @@ export default function Dashboard() {
           )}
         </article>
 
-        <article className="rounded-xl border border-white/10 bg-[#101419] p-5">
+        <article className="rounded-xl border border-white/10 bg-[var(--admin-surface)] p-5">
           <p className="text-[10px] font-black tracking-[3px] text-amber-400">ORDER STATUS</p>
           <h3 className="mt-1 text-xl font-bold">Store Activity</h3>
           <div className="mt-6 space-y-4">
-            {["pending", "processing", "shipped", "delivered", "cancelled"].map((status) => {
+            {STATUS_KEYS.map((status) => {
               const count = statusMap[status] || 0;
               const width = Math.round((count / totalStatusOrders) * 100);
               return (
                 <div key={status}>
                   <div className="mb-2 flex justify-between text-xs"><span className="font-semibold capitalize text-slate-300">{status}</span><span className="font-black text-slate-500">{count}</span></div>
-                  <div className="h-2 overflow-hidden rounded-full bg-white/5"><div className={`h-full ${statusColors[status]}`} style={{ width: `${width}%` }} /></div>
+                  <div className="h-2 overflow-hidden rounded-full bg-white/5"><div className={`h-full ${STATUS_STYLES[status].bar}`} style={{ width: `${width}%` }} /></div>
                 </div>
               );
             })}
