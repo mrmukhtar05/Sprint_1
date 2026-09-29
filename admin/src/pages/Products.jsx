@@ -209,7 +209,7 @@ export default function Products() {
           <div><h3>All Products</h3><small>{filtered.length} loaded · {meta.total || 0} total</small></div>
           <div className="admin-filter-row">
             <button className={`admin-filter-chip ${!genderFilter ? "active hover:!text-white" : ""}`} onClick={() => { setGenderFilter(""); setPage(1) }}>ALL</button>
-            {GENDERS.map(([v, l]) => <button key={v} className={`admin-filter-chip ${genderFilter === v ? "active" : ""}`} onClick={() => { setGenderFilter(v); setPage(1) }}>{l.toUpperCase()}</button>)}
+            {GENDERS.map(([v, l]) => <button key={v} className={`admin-filter-chip ${genderFilter === v ? "active hover:!text-white" : ""}`} onClick={() => { setGenderFilter(v); setPage(1) }}>{l.toUpperCase()}</button>)}
           </div>
           <input className="admin-search" placeholder="Search products..." value={query} onChange={e => setQuery(e.target.value)} />
         </div>
