@@ -31,6 +31,9 @@ const allowedOrigins = [
   // Vercel Frontend
   "https://sprint-1-ten-indol.vercel.app",
 
+  // Admin Vercel
+  "https://sprint-1-24dn.vercel.app",
+
   // Local development
   "http://localhost:5173",
   "http://localhost:5174",
