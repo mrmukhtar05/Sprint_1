@@ -29,10 +29,10 @@ const allowedOrigins = [
   process.env.ADMIN_URL,
 
   // Vercel Frontend
-  "https://sprint-1-ten-indol.vercel.app",
+  "https://vintagevault-shop.vercel.app/",
 
   // Admin Vercel
-  "https://sprint-1-24dn.vercel.app",
+  "https://vintagevault-admin.vercel.app/",
 
   // Local development
   "http://localhost:5173",
