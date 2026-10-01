@@ -11,3 +11,9 @@
 10 verbose logfile D:\E-commerce\backend\.npm-cache\_logs\2026-10-01T05_10_07_354Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
+13 verbose cwd D:\E-commerce\backend
+14 verbose os Windows_NT 10.0.22631
+15 verbose node v26.7.0
+16 verbose npm  v10.9.8
+17 verbose exit -1073741510
+18 verbose code -1073741510
