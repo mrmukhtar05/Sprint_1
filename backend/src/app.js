@@ -28,16 +28,25 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   process.env.ADMIN_URL,
 
-  // Frontend Vercel
+  // ===============================
+  // Production Frontend
+  // ===============================
   "https://vintagevault-shop.vercel.app",
 
-  // Admin Vercel
-  "https://sprint-1-24dn.vercel.app",
+  // ===============================
+  // Production Admin
+  // ===============================
+  "https://vintagevault-admin.vercel.app",
 
-  // Current Admin deployment URL
+  // ===============================
+  // Old Admin Vercel URLs
+  // ===============================
+  "https://sprint-1-24dn.vercel.app",
   "https://sprint-1-24dn-mkvap2zbv-mrmukhtar005-6380s-projects.vercel.app",
 
-  // Local development
+  // ===============================
+  // Local Development
+  // ===============================
   "http://localhost:5173",
   "http://localhost:5174",
 ].filter(Boolean);
@@ -51,10 +60,12 @@ app.use(
         return callback(null, true);
       }
 
+      // Allow known origins
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
+      // Block unknown origins
       console.log("CORS blocked origin:", origin);
 
       return callback(new Error("CORS origin not allowed"));
@@ -68,7 +79,11 @@ app.use(
 // BODY PARSING
 // ===============================
 
-app.use(express.json({ limit: "10mb" }));
+app.use(
+  express.json({
+    limit: "10mb",
+  })
+);
 
 app.use(
   express.urlencoded({
@@ -103,13 +118,21 @@ app.get("/api/health", (req, res) => {
 // ===============================
 
 app.use("/api/auth", authRoutes);
+
 app.use("/api/products", productRoutes);
+
 app.use("/api/categories", categoryRoutes);
+
 app.use("/api/cart", cartRoutes);
+
 app.use("/api/wishlist", wishlistRoutes);
+
 app.use("/api/orders", orderRoutes);
+
 app.use("/api/contact", contactRoutes);
+
 app.use("/api/home", homeRoutes);
+
 app.use("/api/admin", adminRoutes);
 
 // ===============================
@@ -117,6 +140,11 @@ app.use("/api/admin", adminRoutes);
 // ===============================
 
 app.use(notFound);
+
 app.use(errorHandler);
+
+// ===============================
+// EXPORT APP
+// ===============================
 
 module.exports = app;
