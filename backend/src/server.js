@@ -1,44 +1,11 @@
 require("dotenv").config();
 
-const cors = require("cors");
-
 const app = require("./app");
 const connectDB = require("./config/db");
 const ensureSeed = require("./utils/seeder");
 const cloudinary = require("./config/cloudinary");
 
 const PORT = process.env.PORT || 5000;
-
-// ===============================
-// CORS
-// ===============================
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://sprint-1-ten-indol.vercel.app",
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests without an origin
-      // (Postman, server-side requests, etc.)
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
-
-// ===============================
-// ENVIRONMENT CHECK
-// ===============================
 
 console.log("=================================");
 console.log("ENVIRONMENT CHECK");
