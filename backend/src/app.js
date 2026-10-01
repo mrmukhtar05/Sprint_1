@@ -28,11 +28,14 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   process.env.ADMIN_URL,
 
-  // Vercel Frontend
-  "https://vintagevault-shop.vercel.app/",
+  // Frontend Vercel
+  "https://vintagevault-shop.vercel.app",
 
   // Admin Vercel
-  "https://vintagevault-admin.vercel.app/",
+  "https://sprint-1-24dn.vercel.app",
+
+  // Current Admin deployment URL
+  "https://sprint-1-24dn-mkvap2zbv-mrmukhtar005-6380s-projects.vercel.app",
 
   // Local development
   "http://localhost:5173",
@@ -42,8 +45,8 @@ const allowedOrigins = [
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow requests without an origin
-      // (Postman, server-side requests, etc.)
+      // Allow requests without an Origin
+      // Postman / server-side requests
       if (!origin) {
         return callback(null, true);
       }
